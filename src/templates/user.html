@@ -1,0 +1,46 @@
+{% extends "homepage.html" %}
+
+{% block sidebar %}
+<div id="lprofile">
+    <div class="left_top"></div>
+    <ul>
+        <li>
+        <div class="profilepic">
+		  <img width=50 height=50 src="{{ user.picture }}"></img>
+    	</div>
+    	</li>
+    	<li>
+        <div class="fullname">
+	   	   <p>{{ user.realname }}</p>
+        </div>
+        </li>
+        <li>
+        <div style="clear:both">
+            {% if (logged_in_user.user_id|is_friend(user.user_id))  %}
+                <input type="button" value="Cancel Following"
+                    onclick="follow_user('{{ user.user_id }}', this)" />
+            {% else %}
+                <input type="button" value="Follow"
+                    onclick="follow_user('{{ user.user_id }}', this)" />
+            {% endif %}
+        </div>
+        </li>
+     </ul>
+     <div class="left_bottom"></div>
+</div>
+<div id="lfuncnav">
+    <div class="left_top"></div>
+    <ul>
+        <li>
+            <p><a href="/user/{{ user.user_id }}/ratings">Ratings</a></p>
+        </li>
+        <li>
+            <p><a href="/user/{{ user.user_id }}/following">Following</a></p>
+        </li>
+        <li>
+            <p><a href="/user/{{ user.user_id }}/followers">Followers</a></p>
+        </li>
+    </ul>
+    <div class="left_bottom"></div>
+</div>
+{% endblock sidebar %}

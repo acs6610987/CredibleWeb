@@ -1,0 +1,32 @@
+{% extends "homepage.html" %}
+{% block content %}
+<ul>
+    {% for result in results %} 
+        <li>
+            <a href="/user/{{ result['user'].user_id }}">
+            <div class="profile">
+            <div class="profilepic">
+                <img width=50 height=50 src="{{ result['user'].picture }}"></img>
+    	    </div>
+            <div class="fullname">
+	   	       <span>{{ result['user'].realname }}</span><br />
+	   	       <span>{{ result['user'].username }}</span>
+            </div>
+            </a>
+            <div class="user_actions">
+                {% if result['is_friend'] %}
+                    <input type="button" value="Cancel Following" 
+                        onclick="follow_user('{{ result['user'].user_id }}', this)" />
+                {% else %}
+                    <input type="button" value="Follow" 
+                        onclick="follow_user('{{ result['user'].user_id }}', this)" />
+                {% endif %}
+            </div>
+            <span style="display:none">{{ result.user_id }}</span>
+            <div class="expand"></div>
+	        </div>
+        </li>
+        <hr />
+    {% endfor %}
+</ul>
+{% endblock content %}

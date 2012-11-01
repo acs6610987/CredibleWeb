@@ -1,0 +1,10 @@
+FACEBOOK_API = 'https://graph.facebook.com'
+FACEBOOK_APP_ID = '477603028939271'
+FACEBOOK_APP_SECRET = 'de92de8474c299fc09ef31da50c84a33'
+
+TWITTER_API = 'https://api.twitter.com'
+TWITTER_CONSUMER_KEY = 'VfiArFDNJEAgk1ApY51XQ'
+TWITTER_CONSUMER_SECRET = 'cL579XWJ51WqJ6Obz2ic2u5UBZ00avgYRHZy35Q62s'
+
+WEB_SERVER = 'http://credibleweb.appspot.com'
+UID_LEN = 8

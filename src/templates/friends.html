@@ -1,0 +1,104 @@
+{% extends 'homepage.html' %}
+{% block sidebar_friends %}
+    <li>
+        <p style="background-color:#dddddd"><a href="/friends">Friends</a></p>
+    </li>
+{% endblock sidebar_friends %}
+{% block content %}
+<div id="content_friends">
+<div>
+    <h3>CredibleWeb</h3>
+    <h4>Following</h4>
+    <table>
+        <tr><td></td><td></td><td></td></tr>
+        {% for cw_following in CW_following %}
+            {% if loop.index0 is divisibleby 3 %}
+                <tr>
+            {% endif %}
+                <td> 
+                    <a href="/user/{{ cw_following.user_id }}">
+                    <img src="{{ cw_following.picture }}" width="50px" height="50px" /><br />
+                    {{ cw_following.realname }}
+                    </a>
+                    <br />
+                    <input type="button" value="Cancel Following"
+                         onclick="follow_user('{{ cw_following.user_id }}', this)" />
+                </td>
+            {% if (loop.index0 + 1) is divisibleby 3 %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    <br />
+    <h4>Followers</h4>
+    <table>
+        <tr><td></td><td></td><td></td></tr>
+        {% for cw_follower in CW_followers %}
+            {% if loop.index0 is divisibleby 3 %}
+                <tr>
+            {% endif %}
+                <td>
+                    <a href="/user/{{ cw_follower.user_id }}">
+                    <img src="{{ cw_follower.picture }}" width="50px" height="50px" /><br />
+                    {{ cw_follower.realname }}
+                    </a>
+                </td>
+            {% if (loop.index0 + 1) is divisibleby 3 %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+</div>
+<hr />
+<div>
+    <h3>Facebook</h3>
+    {% if FB_friends == None %}
+        <p>You don't have a facebook account.</p>
+    {% else %}
+        <table>
+            <tr><td></td><td></td><td></td></tr>
+            {% for fb_friend in FB_friends %}
+            {% if loop.index0 is divisibleby 3 %}
+                <tr>
+            {% endif %}
+                <td>
+                    <img src="{{ fb_friend['picture'] }}" width="50px" height="50px" /><br />
+                    {{ fb_friend['name'] }}
+                </td>
+            {% if (loop.index0 + 1) is divisibleby 3 %}
+                </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+        <a href="/facebookfriends">&gt;&gt;&gt;All Facebook Friends</a>
+    {% endif %}
+</div>
+<hr />
+<div>
+    <h3>Twitter</h3>
+    {% if TW_friends == None %}
+        <p>You don't have a twitter account.</p>
+    {% else %}
+        <table>
+            <tr><td></td><td></td><td></td></tr>
+            {% for tw_friend in TW_friends %}
+            {% if loop.index0 is divisibleby 3 %}
+                <tr>
+            {% endif %}
+                <td>
+                    <img src="{{ tw_friend['picture'] }}" width="50px" height="50px" /><br />
+                    {{ tw_friend['name'] }}
+                </td>
+            {% if (loop.index0 + 1) is divisibleby 3 %}
+                </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+        <a href="/twitterfriends">&gt;&gt;&gt;All Twitter Friends</a>
+    {% endif %}
+</div>
+</div>
+{% endblock content%}
+
+{% block rmdblock %}
+{% endblock rmdblock %}

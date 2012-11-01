@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>CredibleWeb</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<link href="/static/frame3.css" rel="stylesheet">
+<link href="/static/basic.css" rel="stylesheet">
+<script type="text/javascript" src="/static/main.js"></script>
+<script type="text/javascript" src="/static/evaluate.js"></script>
+<script type="text/javascript" src="/static/eval_status.js"></script>
+</head>
+<body>
+<div id="pagecontainer">
+    {% if permit == 1 %}
+        <iframe src="{{ url }}" id="webpage"></iframe>
+    {% elif permit == 0 %}
+        <div style="margin:100px auto;width:50%;">
+            <div style="margin-bottom:30px;">
+                <img src="/static/sad.png" width="50px" height="50px" />
+                Sorry, the url doesn't support frame for its privacy and security issue.
+            </div>
+            <div>
+                <img src="/static/smile.png" width="50px" height="50px" />
+                We recommend two options to rate this url:
+                <ul style="list-style-type:decimal">
+                    <li>Browse <a href="{{ url }}" target="view_window">{{ url }}</a>, and then give your ratings in the bottom bar.</li>
+                    <li>Follow <a href="/extension_installation">this page</a> to install our extension.</li>
+                </ul>
+                <!--<form onsubmit="submit_rating(this, &quot;{{ url }}&quot;); return false;">
+                    <input type="radio" name="rating" value="1" />1<br />
+                    <input type="radio" name="rating" value="2" />2<br />
+                    <input type="radio" name="rating" value="3" checked="checked" />3<br />
+                    <input type="radio" name="rating" value="4" />4<br />
+                    <input type="radio" name="rating" value="5" />5<br />
+                    <input type="submit" value="Submit" />
+                </form>-->
+            </div>
+        </div>
+    {% else %}
+        <script type="text/javascript">
+            alert("The URL is invalid!");
+            window.close();
+        </script>
+    {% endif %}
+    <div id="cheer_dialog" style="position:fixed; top:0; left:0; right:0; bottom:0;background-color:rgba(0, 0, 0, 0.5);display:none">
+        <div style="position:relative; top:200px; left:500px; width:350px; z-index:6000; background-color:white; padding:10px">
+            <div style="position:absolute; right:0; top:0; margin:2px;" 
+                onmouseover="over_close(this, true)"
+                onmouseout="over_close(this, false)"
+                onclick="document.getElementById('cheer_dialog').style.display = 'none'">
+                <img src="/static/close.png" />
+            </div>
+            <img src="/static/smile.png" width="60px" height="60px" />
+            Good! You have rated this page!
+        </div>
+    </div>
+</div>
+<div id="evalbar">
+        <div id="evaljump">
+            <form method="get"  onsubmit="open_page(document.getElementById('url').value);return false;">
+                URL:<input type="text" name="url" id="url" size="17"></input>
+                <input type="submit" value="Go" />
+            </form>
+        </div>
+        <div id="evaloptions">
+            <input type="button" value="I'm bored" onclick="window.location='/randomRMD'" />
+            <input type="button" value="I want to help" onclick="window.location='/randomRMD'" />
+        </div>
+        <div id="evalsimple">
+            <img style="display:none" src="/static/star.png" />
+            <form onsubmit="submit_simplerating(this, &quot;{{ url }}&quot;); return false;">
+                <input type="hidden" size="3" name="rating" id="evalsimple_rating" value="0" />
+                <span onclick="evalScore(this, event, 'evalsimple_rating','attitudeTitle')">
+                    <img title="very non-credible" id='star1' src='/static/star-bw.png' width="30" height="30" />
+                    <img title="somewhat non-credible" id='star2' src='/static/star-bw.png' width="30" height="30" />
+                    <img title="confusing" id='star3' src='/static/star-bw.png' width="30" height="30" /> 
+                    <img title="somewhat credible" id='star4' src='/static/star-bw.png' width="30" height="30" />
+                    <img title="very credible" id='star5' src='/static/star-bw.png' width="30" height="30" />
+                    <span id="attitudeTitle" class='evalInfo'></span>
+                </span>
+                <input type="submit" value="Rate It" style="position:relative; top:-4px" />
+                <input type="button" value="Next" style="position:relative; top:-4px" onclick="window.location='/userRMD'" />
+            </form>
+        </div>
+        <div id="evalacts">
+            <ul>
+                <li onclick="expand_collapsed(document.getElementById('evalform'))">Evaluate</li>
+                <li onclick="display_stat(&quot;{{ url }}&quot;)">Statistics</li>
+            </ul>
+        </div>
+        <div id="evalform">
+            <p>Give Your Rating Of This Page:</p>
+            <form onsubmit="submit_rating(this, &quot;{{ url }}&quot;); return false;">
+                <input type="radio" name="rating" value="1" />1<br />
+                <input type="radio" name="rating" value="2" />2<br />
+                <input type="radio" name="rating" value="3" checked="checked" />3<br />
+                <input type="radio" name="rating" value="4" />4<br />
+                <input type="radio" name="rating" value="5" />5<br />
+                <input type="submit" value="Submit" />
+            </form>
+        </div>
+        <div id="status_table">
+        </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+{% extends 'base1.html' %}
+
+{% block docs %}
+    <script type="text/javascript" src="/static/welcome.js"></script>
+{% endblock docs %}
+
+{% block content %}
+<div style="text-align:right">
+Already have a Credible Web Account, <a href="/">Sign in</a>
+</div>
+Sign up with <span><a href="/facebooklogin"><img src="/static/facebook.png" /></a> OR
+             <a href="/twitterlogin"><img src="/static/twitter.png" /></a></span>
+<br />
+OR<br />
+Create a Credible Web Account:
+<form action="/register" method="post" onsubmit="return check_reg_info(this)">
+    <table>
+            <tr>
+                <td>Realname:</td>
+                <td>
+                    <input name="realname" type="text" size="20" />
+                    <span class="span_red">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Username:</td>
+                <td>
+                    <input name="username" type="text" size="20" onchange="check_username(this.value)" />
+                    <span class="span_red">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td>
+                    <input name="password" type="password" size="20" />
+                    <span class="span_red">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Confirm Password:</td>
+                <td>
+                    <input name="confirm_password" type="password" size="20" />
+                    <span class="span_red">*</span>
+                </td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input name="email" type="text" size="20" /></td>
+            <tr>
+            </tr>
+                <td>Website:</td>
+                <td><input name="website" type="text" size="20" /></td>
+            </tr>
+            <tr>
+                <td>Location:</td>
+                <td><input name="location" type="text" size="20" /></td>
+            </tr>
+            <tr>
+                <td>Expertise<br />(or Interest):</td>
+                <td>
+                    <table>
+                    <tr>
+                    <td><input type="checkbox" name="expertise" value="technology" />Technology</td>
+                    <td><input type="checkbox" name="expertise" value="literature" />Literature</td>
+                    <td><input type="checkbox" name="expertise" value="medicine" />Medicine</td>
+                    <td><input type="checkbox" name="expertise" value="history" />History</td>
+                    </tr>
+                    <tr>
+                    <td><input type="checkbox" name="expertise" value="physics" />Physics</td>
+                    <td><input type="checkbox" name="expertise" value="chemistry" />Chemistry</td>
+                    <td><input type="checkbox" name="expertise" value="mathematics" />Mathematics</td>
+                    <td><input type="checkbox" name="expertise" value="sport" />Sport</td>
+                    </tr>
+                    <tr>
+                    <td><input type="checkbox" name="expertise" value="art" />Art</td>
+                    <td><input type="checkbox" name="expertise" value="politics" />Politics</td>
+                    </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Register" /></td>
+            </tr>
+            
+    </table>
+</form>
+<p id="reg_tip">
+    {% if reg_state == 1 %}
+        This username has bee taken! Please try another one.
+    {% endif %}
+</p>
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends 'base1.html' %}
+{% block docs %}
+<script type="text/javascript" src="/static/welcome.js"></script>
+{% endblock docs %}
+{% block content %}
+<div id="feedback_title">
+    <h1>Feedback on Credible Web</h1>
+</div>
+{% if recorded %}
+    <div id="feedback_record">
+        Your feedback has been recorded. We will process it soon. Thank you for your help:)!
+    </div>
+{% else %}
+<div id="feedback_form">
+    <div id="feedback_words">
+    <p>
+        As Credible Web developers, we try our best to keep this website robust and provide a good user experience. Your help with this feedback will greatly improve our service. Thanks a lot!
+    </p>
+    <p><span class="span_red">* Required</span></p>
+    <p><span id="feedback_tip" class="span_red"></span></p>
+    </div>
+    <form action="/feedback" method="post" onsubmit="return check_feedback(this)">
+        <div id="feedback_type">
+        <h4>Type of feedback<span class="span_red">*</span></h4>
+        <select name="type">
+            <option value="bug">I found a bug</option>
+            <option value="suggestion">I have a suggestion</option>
+            <option value="feeling">Just some feeling</option>
+        </select>
+        </div>
+    
+        <div id="feedback_description">
+        <h4>Description<span class="span_red">*</span></h4>
+        <textarea name="description" rows="7" style="width:90%"></textarea>
+        </div>
+    
+        <div id="feedback_name">
+        <h4>Your username or realname(if you have an account in this website)</h4>
+        <input type="text" size="20" name="name">
+        </div>
+    
+        <div id="feedback_browser">
+        <h4>Your browser</h4>
+        <input type="text" size="20" name="browser">
+        </div>
+    
+        <div id="feedback_email">
+        <h4>Your e-mail address</h4>
+        <input type="text" size="20" name="email">
+        </div>
+    
+        <input type="submit" value="Submit">
+    </form>
+</div>
+{% endif %}
+{% endblock content %}

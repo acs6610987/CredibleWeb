@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Credible Web</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link href="/static/basic.css" rel="stylesheet">
+    <link href="/static/frame1.css" rel="stylesheet">
+    {% block docs %}
+    {% endblock docs %}
+</head>
+
+<body>
+<div id="container">
+<div id="content">
+{% block content %}
+{% endblock content %}
+</div>
+<div id="footer">
+<a href="/">Home</a>
+|
+<a href="/extension_installation">Intall Extension</a>
+|
+<a href="/privacy">Data Privacy</a>
+|
+<a href="/feedback">Feedback</a>
+</div>
+</div>
+</body>
+</html>

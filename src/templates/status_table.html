@@ -1,0 +1,18 @@
+{% if status|length == 0 %}
+    <p>No one has rated this page.</p>
+{% else %}
+URL: {{ url }}
+<table cellspacing="20px">
+<tr>
+    <th>Score</th>
+    <th>Numer of Raters</th>
+</tr>
+{% for item in status %}
+<tr>
+    <th>{{ item[0] }}</th>
+    <td>{{ item[1] }}</td>
+</tr>
+{% endfor %}
+</table>
+Average Score: {{ avg }}
+{% endif %}

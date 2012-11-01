@@ -1,0 +1,11 @@
+{% extends "user.html" %}
+{% block content %}
+<ul>
+    {% for item in ratings %}
+    <li>
+        {{ user.realname }} rate <span class="evalscore">{{ item.rating }}</span> on webpage <span class="evalurl" onclick="open_page(&quot;{{ item.url }}&quot;)">{{ item.url }}</span>.  ---{{ item.time|datetimeformat }}
+    </li>
+    <hr />
+    {% endfor %}
+</ul>
+{% endblock content%}

@@ -1,0 +1,19 @@
+{% for friend in friends %}
+<li>
+    <div class="profile">
+            <div class="profilepic">
+                <img width=50 height=50 src="{{ friend.picture }}"></img>
+    	    </div>
+            <div class="fullname">
+	   	       <span>{{ friend.realname }}</span><br />
+	   	       <span>{{ friend.username }}</span>
+            </div>
+            <div class="user_actions">
+                    <input type="button" value="Cancel Following" 
+                        onclick="follow_user('{{ friend.user_id }}', this)" />
+            </div>
+            <span style="display:none">{{ friend.user_id }}</span>
+            <div class="expand"></div>
+    </div>
+</li>
+{% endfor %}

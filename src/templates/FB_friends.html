@@ -1,0 +1,31 @@
+{% extends 'friends.html' %}
+{% block docs %}
+<script type="text/javascript" src="/static/lazy_loading.js"></script>
+<script type="text/javascript">
+var m_origin = "facebook"
+var done = false
+window.onscroll = load_more_friends
+</script>
+{% endblock docs %}
+{% block content %}
+<div id="content_friends">
+    <h3>Facebook</h3>
+    <table id="friends_table">
+        <tr><td></td><td></td><td></td></tr>
+    {% for fb_friend in FB_friends %}
+    {% if loop.index0 is divisibleby 3 %}
+        <tr>
+    {% endif %}
+        <td>
+            <img src="{{ fb_friend['picture'] }}" width=50 height=50 />
+            <br />
+            {{ fb_friend['name'] }}
+            <span style="display:none">{{ fb_friend['id'] }}</span>
+        </td>
+    {% if (loop.index0 + 1) is divisibleby 3 %}
+        </tr>
+    {% endif %}
+    {% endfor %}
+    </table>
+</div>
+{% endblock content %}

@@ -1,0 +1,45 @@
+{% extends 'base1.html' %}
+{% block docs %}
+    <script type="text/javascript" src="/static/welcome.js"></script>
+    <link href="/static/frame1.css" rel="stylesheet">
+{% endblock docs %}
+{% block content %}
+    <div id="intro">
+        <h1>Credible Web</h1>
+        <div id="description">
+        Are you confused by online materials with all kinds of different opinions? Then this application is meant for
+        you to make a contribution to Web Content Credibility. We collect rating data from users, make recommendations and hopefully
+        help you identify credibility of web page as a final goal. Plus, it's funny to show your opinion, see what others think
+        about it, and earn points to the heaven!
+        </div>
+    </div>
+    <div id="login">
+        <div id="sn_login">
+            <p>Sign in with Social Network Accounts</p><br />
+            <a href="/facebooklogin"><img src="/static/facebook.png" /></a>
+            <a href="/twitterlogin"><img src="/static/twitter.png" /></a>
+        </div>
+        <div id="cw_login">
+            <p>Sign in with CredibleWeb Account</p><br />
+            <form action="/credibleweblogin" method="post" style="text-align:right">
+                <div>
+                Username:<input name="username" type="text" size="20" />
+                </div>
+                <div>
+                Password:<input name="password" type="password" size="20" />
+                </div>
+                <div>
+                <input type="submit" value="Sign in" />
+                </div>
+            </form>
+            {% if login_error %}
+                <p>{{ login_error }}</p>
+            {% endif %}
+        </div>
+        <div id="cw_sign_up">
+            Don't have an account? Sign up <a href="/register">Here</a>
+        </div>
+        <div class="expand"></div>
+    </div>
+    <div class="expand"></div>
+{% endblock content %}

@@ -1,0 +1,29 @@
+{% extends 'homepage.html' %}
+{% block sidebar_news %}
+<li>
+    <p style="background-color:#dddddd"><a href="/news">News</a></p>
+</li>
+{% endblock sidebar_news %}
+{% block content %}
+<div id = "content_news">
+<ul>
+    {% if recent_ratings | length == 0 %}
+        No rating news from your friends.
+    {% endif %}
+    {% for item in recent_ratings %}
+    <li>
+        {{ item.user_id | get_name_by_id }} rate <span class="evalscore">{{ item.rating }}</span> on webpage <span class="evalurl" onclick="open_page(&quot;{{ item.url }}&quot;)">{{ item.url }}</span>.  ---{{ item.time | datetime_format }}
+    </li>
+    <hr />
+    {% endfor %}
+</ul>
+</div>
+{% endblock content %}
+{% block rmdcontent %}
+    <p>You might want to evaluate credibility of the following urls:</p>
+    <ul>
+    {% for item in recommendations %}
+        <li>{{ item.topic }}:<a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">{{ item.url }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock rmdcontent %}

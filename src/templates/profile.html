@@ -1,0 +1,144 @@
+{% extends "homepage.html" %}
+{% block content %}
+<script type="text/javascript" src="/static/profile.js"></script>
+<p id="profile_info">
+    {% if success %}
+        Your profile data have been saved.
+    {% endif %}
+</p>
+<form action="/editprofile" method="post" enctype="multipart/form-data" onsubmit="return check_profile(this);">
+<table>
+<caption>Credible Web</caption>
+<tr>
+    <td>Photo</td>
+    <td>
+        <img width="100px" height="100px" src="{{ logged_in_user.picture }}" />
+        <div style="position:relative;display:inline-block">
+            Choose Photo
+            <input type="file" name="photo" style="position:absolute;top:0;left:0;z-index:10;opacity:0" />
+        </div>
+    </td>
+</tr>
+<tr>
+    <td>Username</td>
+    <td><input type="text" name="username" readonly="readonly" value="{{ logged_in_user.username }}" /></td>
+</tr>
+<tr>
+    <td>Realname</td>
+    <td><input type="text" name="realname" value="{{ logged_in_user.realname }}" /></td>
+</tr>
+<tr>
+    <td>Email</td>
+    <td><input type="text" name="email" value="{{ cw_profile.email }}" /></td>
+</tr>
+<tr>
+    <td>Website</td>
+    <td><input type="text" name="website" value="{{ cw_profile.website }}" /></td>
+</tr>
+<tr>
+    <td>Location</td>
+    <td><input type="text" name="location" value="{{ cw_profile.location}}" /></td>
+</tr>
+<tr>
+                <td>Expertise<br />(or Interest):</td>
+                <td>
+                    <table>
+                    <tr>
+                    <td><input type="checkbox" name="expertise" value="technology" 
+                            {{ cw_profile.expertise | has_expertise('technology') }} />Technology</td>
+                    <td><input type="checkbox" name="expertise" value="literature"
+                            {{ cw_profile.expertise | has_expertise('literature') }} />Literature</td>
+                    <td><input type="checkbox" name="expertise" value="medicine"
+                            {{ cw_profile.expertise | has_expertise('medicine') }} />Medicine</td>
+                    <td><input type="checkbox" name="expertise" value="history"
+                            {{ cw_profile.expertise | has_expertise('history') }} />History</td>
+                    </tr>
+                    <tr>
+                    <td><input type="checkbox" name="expertise" value="physics"
+                            {{ cw_profile.expertise | has_expertise('physics') }} />Physics</td>
+                    <td><input type="checkbox" name="expertise" value="chemistry"
+                            {{ cw_profile.expertise | has_expertise('chemistry') }} />Chemistry</td>
+                    <td><input type="checkbox" name="expertise" value="mathematics"
+                            {{ cw_profile.expertise | has_expertise('mathematics') }} />Mathematics</td>
+                    <td><input type="checkbox" name="expertise" value="sport"
+                            {{ cw_profile.expertise | has_expertise('sport') }} />Sport</td>
+                    </tr>
+                    <tr>
+                    <td><input type="checkbox" name="expertise" value="art"
+                            {{ cw_profile.expertise | has_expertise('art') }} />Art</td>
+                    <td><input type="checkbox" name="expertise" value="politics"
+                            {{ cw_profile.expertise | has_expertise('politics') }} />Politics</td>
+                    </tr>
+                    </table>
+                </td>
+</tr>
+<tr>
+    <td></td>
+    <td><input type="submit" value="Save Changes" /></td>
+</tr>
+</table>
+</form>
+<hr />
+{% if fb_profile %}
+<table>
+<caption>Facebook</caption>
+<tr>
+    <td>Photo</td>
+    <td>
+        <img width="100px" height="100px" src="{{ fb_profile.picture }}" />
+    </td>
+</tr>
+<tr>
+    <td>Username</td>
+    <td><input type="text" name="username" readonly="readonly" value="{{ fb_profile.username }}" /></td>
+</tr>
+<tr>
+    <td>Realname</td>
+    <td><input type="text" name="realname" value="{{ fb_profile.realname }}" /></td>
+</tr>
+<tr>
+    <td>Website</td>
+    <td><input type="text" name="website" value="{{ fb_profile.website }}" /></td>
+</tr>
+<tr>
+    <td>Location</td>
+    <td><input type="text" name="location" value="{{ fb_profile.location}}" /></td>
+</tr>
+</table>
+{% else %}
+<p>You don't have a facebook account. Merge one <a href="/accountmerge">here</a>.</p>
+{% endif %}
+<hr />
+{% if tw_profile %}
+<table>
+<caption>Twitter</caption>
+<tr>
+    <td>Photo</td>
+    <td>
+        <img width="100px" height="100px" src="{{ tw_profile.picture }}" />
+    </td>
+</tr>
+<tr>
+    <td>Username</td>
+    <td><input type="text" name="username" readonly="readonly" value="{{ tw_profile.username }}" /></td>
+</tr>
+<tr>
+    <td>Realname</td>
+    <td><input type="text" name="realname" value="{{ tw_profile.realname }}" /></td>
+</tr>
+<tr>
+    <td>Website</td>
+    <td><input type="text" name="website" value="{{ tw_profile.website }}" /></td>
+</tr>
+<tr>
+    <td>Location</td>
+    <td><input type="text" name="location" value="{{ tw_profile.location}}" /></td>
+</tr>
+</table>
+{% else %}
+<p>You don't have a twitter account. Merge one <a href="/accountmerge">here</a>.</p>
+{% endif %}
+{% endblock content %}
+
+{% block rmdblock %}
+{% endblock rmdblock %}

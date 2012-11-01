@@ -1,0 +1,58 @@
+application: credibleweb
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /static
+  static_dir: static
+
+- url: /(.*)friends
+  script: get_friend_list.app
+
+- url: /(.*)login
+  script: login.app
+
+- url: /register
+  script: register.app
+  
+- url: /(.*)merge
+  script: merge_account.app
+  
+- url: /geteval(.*)
+  script: get_evaluation.app
+  
+- url: /evaluate
+  script: evaluate.app
+  
+- url: /getratings
+  script: get_ratings.app
+ 
+- url: /search
+  script: search.app
+  
+- url: /followuser
+  script: follow_user.app
+ 
+- url: /user/(.*)
+  script: user_home.app
+ 
+- url: /editprofile
+  script: profile.app
+
+- url: /(.*)RMD
+  script: recommendation.app
+
+- url: /img
+  script: img.app
+
+- url: /.*
+  script: home.app
+  
+libraries:
+- name: jinja2
+  version: 2.6
+
+builtins:
+- remote_api: on

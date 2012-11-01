@@ -1,0 +1,14 @@
+{% for friend in friends %}
+    {% if loop.index0 is divisibleby 3 %}
+        <tr>
+    {% endif %}
+        <td>
+            <img src="{{ friend['picture'] }}" width=50 height=50 />
+            <br />
+            {{ friend['name'] }}
+            <span style="display:none">{{ friend['id'] }}</span>
+        </td>
+    {% if (loop.index0 + 1) is divisibleby 3 %}
+        </tr>
+    {% endif %}
+{% endfor %}

@@ -1,0 +1,118 @@
+{% extends "base2.html" %}
+	
+{% block topbar %}
+<div id="topnav">
+    <ul id="topnav-acts">
+        <li><a href="/" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#dddddd'">Homepage</a></li>
+        <li><a href="/logoutreq" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#dddddd'">Logout</a></li>
+    </ul>
+    <div id="topnav-tools">
+        <form action="/search" method="get">
+            <input type="text" name="keyword" size="20" value="search for user" style="color:grey"
+                onblur="search_placeholder(this, false)" onfocus="search_placeholder(this, true)" onkeyup="showHint(this.value)" />
+        </form>
+        <div id="topnav-hint">
+        
+        </div>
+    </div>
+</div>
+{% endblock topbar %}
+
+{% block sidebar %}
+    <div id="lprofile">
+        <div class="left_top"></div>
+        <ul>
+        <li>
+        <div class="profilepic">
+		  <a href="/user/{{ logged_in_user.user_id }}/ratings"><img width=50 height=50 src="{{ logged_in_user.picture }}"></img></a>
+    	</div>
+    	</li>
+    	<li>
+        <div class="fullname">
+	   	   <p>{{ logged_in_user.realname }}</p>
+        </div>
+        </li>
+        <li>
+        <div style="clear:both">
+            <a href="/editprofile">Edit Your Profile</a>
+        </div>
+        </li>
+        </ul>
+        <div class="left_bottom"></div>
+	</div>
+	<div id="lfuncnav">
+	<div class="left_top"></div>
+	<ul>
+        {% block sidebar_news %}
+        <li>
+            <p><a href="/news"> News</a></p>
+        </li>
+        {% endblock sidebar_news %}
+        {% block sidebar_friends %}
+		<li>
+			<p><a href="/friends">Friends</a></p>
+		</li>
+        {% endblock sidebar_friends %}
+        {% block sidebar_evaluation %}
+		<li>
+            <p><a href="/geteval">Evaluation</a></p>
+        </li>
+        {% endblock sidebar_evaluation %}
+        {% block sidebar_ratings %}
+        <li>
+            <p><a href="/getratings">My Ratings</a></p>
+        </li>
+        {% endblock sidebar_ratings %}
+        {% block sidebar_merge %}
+        <li>
+            <p><a href="/accountmerge">Merge Account</a></p>
+        </li>
+        {% endblock sidebar_merge %}
+	</ul>
+	<div class="left_bottom"></div>
+	</div>
+	<div id="lresources">
+	   <div class="left_top"></div>
+	   <ul>
+	       <li>
+	           <p><a href="/feedback">Feedback</a></p>
+           </li>
+           <li>
+               <p><a href="#">About us</a></p>
+           </li>
+       </ul>
+       <div class="left_bottom"></div>
+    </div>
+{% endblock sidebar %}
+{% block content %}
+<ul id = "content_news">
+    {% if recent_ratings | length == 0 %}
+        No rating news from your friends.
+    {% endif %}
+    {% for item in recent_ratings %}
+    <li>
+        {{ item.user_id | get_name_by_id }} rate <span class="evalscore">{{ item.rating }}</span> on webpage <span class="evalurl" onclick="open_page(&quot;{{ item.url }}&quot;)">{{ item.url }}</span>.  ---{{ item.time | datetime_format }}
+    </li>
+    <hr />
+    {% endfor %}
+</ul>
+{% endblock content %}
+{% block rmdcontent %}
+    <p>You might want to evaluate credibility of the following urls:</p>
+    <ul>
+    {% for item in recommendations %}
+        <li>{{ item.topic }}:<a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">{{ item.url }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock rmdcontent %}
+
+{% block heaven_content %}
+<div style="position:relative" >
+    <img src="/static/ladder.jpg" width=180px height=180px />
+    <img src="/static/user_marker.png" width=20px height=20px 
+        style="position:absolute;bottom:{{ logged_in_user.user_id|heaven_bottom }}px;left:{{ logged_in_user.user_id|heaven_bottom }}px"/>
+</div>
+<div>
+    <p>You have rated <span class="span_red">{{ logged_in_user.user_id | num_of_ratings }}</span> pages.</p>
+</div>
+{% endblock heaven_content %}

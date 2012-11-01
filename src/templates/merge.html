@@ -1,0 +1,19 @@
+{% extends "homepage.html" %}
+{% block sidebar_merge %}
+<li>
+    <p style="background-color:#dddddd"><a href="/accountmerge">Merge Account</a></p>
+</li>
+{% endblock sidebar_merge %}
+{% block content %}
+<div>
+    <p>If you have other social network accounts, you can merge them here to become more socialized!</p>
+    <a href="/facebookmerge"><img src="/static/facebook.png" /></a>
+    <a href="/twittermerge"><img src="/static/twitter.png" /></a>
+    {% if info %}
+        <p>{{ info }}</p>
+    {% endif %}
+</div>
+{% endblock content%}
+
+{% block rmdblock %}
+{% endblock rmdblock %}
