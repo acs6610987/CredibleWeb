@@ -1,25 +1,31 @@
 {% extends 'homepage.html' %}
-{% block sidebar_evaluation %}
-<li>
-    <p style="background-color:#dddddd"><a href="/geteval">Evaluation</a></p>
-</li>
-{% endblock sidebar_evaluation %}
+{% block docs %}
+        <style>
+            #content_evaluation{
+                text-align: center;
+            }
+        </style>
+{% endblock docs %}
+{% block nav_eval %}
+<li class="active"><a href="/geteval"><i class="icon-question-sign"></i> Evaluate</a></li>
+{% endblock nav_eval %}
+
+{% block main_legend %}
+    Share your url
+{% endblock main_legend %}
+
 {% block content %}
 <div id="content_evaluation">
+<h4>Please Input The URL Your Want to Evaluate</h4>
 <form method="get"  onsubmit="open_page(document.getElementById('url').value);return false;">
-    Please Input The URL Your Want to Evaluate:<br />
-    <input type="text" name="url" id="url"></input>
-    <input type="submit" value="Go to Evaluate" />
-    <input type="button" value="Show Status" onclick="show_status(document.getElementById('url').value)" />
+    <div class="input-append">
+        <input class="span5" id="url" name="url" type="text">
+        <button class="btn" type="submit">Go!</button>
+    </div>
 </form>
-<div id="status_table"></div>
 </div>
 {% endblock content %}
-{% block rmdcontent %}
-    <p>You might want to evaluate credibility of the following urls:</p>
-    <ul>
-    {% for item in recommendations %}
-        <li>{{ item.topic }}:<a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">{{ item.url }}</a></li>
-    {% endfor %}
-    </ul>
-{% endblock rmdcontent %}
+{#
+{% block mainblock %}
+{% endblock mainblock %}
+        #}

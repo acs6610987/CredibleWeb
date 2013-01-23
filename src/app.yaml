@@ -8,6 +8,12 @@ handlers:
 - url: /static
   static_dir: static
 
+- url: /urlInfoDownloadTask
+  script: tasks.app
+
+- url: /user/(.*)
+  script: user_home.app
+
 - url: /(.*)friends
   script: get_friend_list.app
 
@@ -18,15 +24,18 @@ handlers:
   script: register.app
   
 - url: /(.*)merge
-  script: merge_account.app
+  script: profile.app
   
 - url: /geteval(.*)
   script: get_evaluation.app
   
 - url: /evaluate
   script: evaluate.app
+
+- url: /vote
+  script: vote.app
   
-- url: /getratings
+- url: /getratings_(.*)
   script: get_ratings.app
  
 - url: /search
@@ -35,16 +44,16 @@ handlers:
 - url: /followuser
   script: follow_user.app
  
-- url: /user/(.*)
-  script: user_home.app
- 
-- url: /editprofile
+- url: /(.*)profile
   script: profile.app
+  
+- url: /(.*)friendrequest
+  script: add_friend.app
 
-- url: /(.*)RMD
+- url: /(.*)_rmd
   script: recommendation.app
 
-- url: /img
+- url: /img(.*)
   script: img.app
 
 - url: /.*
@@ -56,3 +65,4 @@ libraries:
 
 builtins:
 - remote_api: on
+- appstats: on

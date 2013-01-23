@@ -1,9 +1,158 @@
 {% extends 'base1.html' %}
 
 {% block docs %}
-    <script type="text/javascript" src="/static/welcome.js"></script>
+    <script type="text/javascript" src="/static/js/welcome.js"></script>
+    <style>
+        .modal{
+            width: 650px;
+        }
+    </style>
 {% endblock docs %}
+{% block modal_title %}
+Sign up and Share your Opinion!
+{% endblock modal_title %}
+{% block modal_body %}
+<form class="form-horizontal" action="/register" method="post" onsubmit="return check_reg_info(this)">
+    <div id="help_block">
+    </div>
+    <p><span class="m_red">* Required field</span></p>
+    <h5>For your signing in</h5>
+    <div class="control-group">
+        <label class="control-label" for="email">Email<span class="m_red">*</span></label>
+        <div class="controls">
+            <input type="text" name="email" id="email" placeholder="Email" onchange="check_email(this.value)" value="{{ email }}">
+            <span id="email_info">
+                <span class="text-error">
+                    {% if reg_state == 1 %}
+                        This email address has been used.
+                    {% endif %}
+                </span>
+            </span>
+            <p class="muted">You will use it to sign in.</p>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="password">Password<span class="m_red">*</span></label>
+        <div class="controls">
+            <input type="password" name="password" id="password" placeholder="Password">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="confirm_password">Confirm Password<span class="m_red">*</span></label>
+        <div class="controls">
+            <input type="password" name="confirm_password" id="confirm_password" placeholder="Password">
+        </div>
+    </div>
+    <h5>Tell us a little bit about yourself</h5>
+    <div class="control-group">
+        <label class="control-label" for="firstname">First Name<span class="m_red">*</span></label>
+        <div class="controls">
+            <input type="text" name="firstname" id="firstname" placeholder="First Name">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="lastname">Last Name<span class="m_red">*</span></label>
+        <div class="controls">
+            <input type="text" name="lastname" id="lastname" placeholder="Last Name">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="website">Website</label>
+        <div class="controls">
+            <input type="text" name="website" id="website" placeholder="Website">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="location">Location</label>
+        <div class="controls">
+            <input type="text" name="location" id="location" placeholder="Location">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Expertise<span class="m_red">*</span></label>
+        <div class="controls">
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <label class="checkbox" >
+                        <input type="checkbox" name="expertise" value="arts_entertainment" />Arts & Entertainment
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                        <input type="checkbox" name="expertise" value="computer_internet" />Computer & Internet
+                        </label>
+                    </td>
 
+                    <td>
+                        <label class="checkbox">
+                        <input type="checkbox" name="expertise" value="health" />Health
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="checkbox">
+                        <input type="checkbox" name="expertise" value="science_technology" />Science & Technology
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                        <input type="checkbox" name="expertise" value="law_crime" />Law & Crime
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                        <input type="checkbox" name="expertise" value="business" />Business
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="culture_politics" />Culture & Politics
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                        <input type="checkbox" name="expertise" value="gaming" />Gaming
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                        <input type="checkbox" name="expertise" value="sports" />Sports
+                        </label>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="weather" />Weather
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="recreation">Recreation
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="religion" />Religion
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-info">Sign up</button>
+        </div>
+    </div>
+</form>
+{% endblock modal_body %}
+{#
 {% block content %}
 <div style="text-align:right">
 Already have a Credible Web Account, <a href="/">Sign in</a>
@@ -16,35 +165,37 @@ Create a Credible Web Account:
 <form action="/register" method="post" onsubmit="return check_reg_info(this)">
     <table>
             <tr>
-                <td>Realname:</td>
+                <td>First Name<span class="span_red">*</span>:</td>
                 <td>
-                    <input name="realname" type="text" size="20" />
-                    <span class="span_red">*</span>
+                    <input name="firstname" type="text" size="20" />
                 </td>
             </tr>
             <tr>
-                <td>Username:</td>
+                <td>Last Name<span class="span_red">*</span>:</td>
                 <td>
-                    <input name="username" type="text" size="20" onchange="check_username(this.value)" />
-                    <span class="span_red">*</span>
+                    <input name="lastname" type="text" size="20" />
                 </td>
             </tr>
             <tr>
-                <td>Password:</td>
+                <td>Username<span class="span_red">*</span>:</td>
+                <td>
+                    <input name="username" type="text" size="20" onchange="check_username(this.value)" />                    
+                </td>
+            </tr>
+            <tr>
+                <td>Password<span class="span_red">*</span>:</td>
                 <td>
                     <input name="password" type="password" size="20" />
-                    <span class="span_red">*</span>
                 </td>
             </tr>
             <tr>
-                <td>Confirm Password:</td>
+                <td>Confirm Password<span class="span_red">*</span>:</td>
                 <td>
                     <input name="confirm_password" type="password" size="20" />
-                    <span class="span_red">*</span>
                 </td>
             </tr>
             <tr>
-                <td>Email:</td>
+                <td>Email<span class="span_red">*</span>:</td>
                 <td><input name="email" type="text" size="20" /></td>
             <tr>
             </tr>
@@ -56,24 +207,26 @@ Create a Credible Web Account:
                 <td><input name="location" type="text" size="20" /></td>
             </tr>
             <tr>
-                <td>Expertise<br />(or Interest):</td>
+                <td>Expertise<br />(or Interest)<span class="span_red">*</span>:</td>
                 <td>
                     <table>
                     <tr>
-                    <td><input type="checkbox" name="expertise" value="technology" />Technology</td>
-                    <td><input type="checkbox" name="expertise" value="literature" />Literature</td>
-                    <td><input type="checkbox" name="expertise" value="medicine" />Medicine</td>
-                    <td><input type="checkbox" name="expertise" value="history" />History</td>
+                    <td><input type="checkbox" name="expertise" value="arts_entertainment" />Arts & Entertainment</td>
+                    <td><input type="checkbox" name="expertise" value="computers_internet" />Computers & Internet</td>
+                    <td><input type="checkbox" name="expertise" value="culture_politics" />Culture & Politics</td>
+                    <td><input type="checkbox" name="expertise" value="health" />Health</td>
                     </tr>
                     <tr>
-                    <td><input type="checkbox" name="expertise" value="physics" />Physics</td>
-                    <td><input type="checkbox" name="expertise" value="chemistry" />Chemistry</td>
-                    <td><input type="checkbox" name="expertise" value="mathematics" />Mathematics</td>
-                    <td><input type="checkbox" name="expertise" value="sport" />Sport</td>
+                    <td><input type="checkbox" name="expertise" value="science_technology" />Science & Technology</td>
+                    <td><input type="checkbox" name="expertise" value="law_crime" />Law & Crime</td>
+                    <td><input type="checkbox" name="expertise" value="business" />Business</td>
+                    <td><input type="checkbox" name="expertise" value="religion" />Religion</td>
                     </tr>
                     <tr>
-                    <td><input type="checkbox" name="expertise" value="art" />Art</td>
-                    <td><input type="checkbox" name="expertise" value="politics" />Politics</td>
+                    <td><input type="checkbox" name="expertise" value="gaming" />Gaming</td>
+                    <td><input type="checkbox" name="expertise" value="sports" />Sports</td>
+                    <td><input type="checkbox" name="expertise" value="weather" />Weather</td>
+                    <td><input type="checkbox" name="expertise" value="recreation">Recreation</td>
                     </tr>
                     </table>
                 </td>
@@ -91,3 +244,4 @@ Create a Credible Web Account:
     {% endif %}
 </p>
 {% endblock content %}
+#}

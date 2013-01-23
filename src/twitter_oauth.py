@@ -20,7 +20,7 @@ def create_twitter_signature(method, baseUrl, req_params, oauth_params, consumer
     if token_secret:
         signing_key += percent_code(token_secret)
     hashed_value = hmac.new(signing_key, signature_base_string, hashlib.sha1).digest()
-    return binascii.b2a_base64(hashed_value)[:-1]  
+    return binascii.b2a_base64(hashed_value)[:-1]
 
 def percent_code(str):
     return urllib.quote(str, safe = '-._~')
@@ -59,5 +59,26 @@ if __name__ == '__main__':
     print get_oauth_header('POST', 'https://api.twitter.com/oauth/request_token', None, 
                            'http://localhost/sign-in-with-twitter/', 
                            'cChZNFj6T5R0TigYB9yd1w', 'L8qq9PZyRg6ieKGEKhZolGC0vJWLw8iEJ88DRdyOg')
+    params={}
+    params['status'] = 'Hello Ladies + Gentlemen, a signed OAuth request!'
+    params['include_entities'] = 'true'
+    oauth_params = {}
+    oauth_params['oauth_consumer_key'] = 'xvz1evFS4wEEPTGEFPHBog'
+    oauth_params['oauth_nonce'] = 'kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg'
+    oauth_params['oauth_signature_method'] = 'HMAC-SHA1'
+    oauth_params['oauth_timestamp'] = '1318622958'
+    oauth_params['oauth_token'] = '370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb'
+    oauth_params['oauth_version']= '1.0'
+    print create_twitter_signature('POST', 'https://api.twitter.com/1/statuses/update.json',
+                                   params,oauth_params,
+                                   'kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw',
+                                   'LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE')
+    x = create_twitter_signature('POST', 'https://api.twitter.com/1/statuses/update.json',
+                                   params,oauth_params,
+                                   'kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw',
+                                   'LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE')
+    if x == 'tnnArxj06cWHq44gCs1OSKk/jLY=':
+        print 'true'
+    
     
     

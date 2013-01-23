@@ -28,8 +28,10 @@ class TwitterLogin(BasicHandler):
                 user = data_models.register_user(userInfo)
                 data_models.store_exinfo(user.user_id, userInfo)
                 data_models.update_twitter_info(user, userInfo)
+                data_models.update_twitter_friends(user, userInfo)
             else:
                 data_models.update_twitter_info(user, userInfo)
+                data_models.update_twitter_friends(user, userInfo)
             info = {'uid':user.user_id, 'origin':'twitter', 'origin_id':userInfo['twitter_id']}
             self.set_cookies(info)
             
@@ -44,8 +46,10 @@ class FacebookLogin(BasicHandler):
                 user = data_models.register_user(userInfo)
                 data_models.store_exinfo(user.user_id, userInfo)
                 data_models.update_facebook_info(user, userInfo)
+                data_models.update_facebook_friends(user, userInfo)
             else:
                 data_models.update_facebook_info(user, userInfo)
+                data_models.update_facebook_friends(user, userInfo)
     
             info = {'uid':user.user_id, 'origin':'facebook', 'origin_id':userInfo['facebook_id']}
             self.set_cookies(info)
@@ -54,11 +58,11 @@ class FacebookLogin(BasicHandler):
         
 class CrediblewebLogin(BasicHandler):
     def post(self):
-        username = self.request.get('username')
+        email = self.request.get('email')
         password = self.request.get('password')
-        user = User.gql('WHERE username = :1', username).get()
+        user = User.gql('WHERE email = :1', email).get()
         if not user:
-            error = "Username doesn't exist!"
+            error = "User doesn't exist!"
             self.render('welcome.html',
                         login_error = error)
             return

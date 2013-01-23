@@ -1,13 +1,36 @@
 {% extends 'homepage.html' %}
-{% block sidebar_friends %}
-    <li>
-        <p style="background-color:#dddddd"><a href="/friends">Friends</a></p>
-    </li>
-{% endblock sidebar_friends %}
+{% block nav_friends %}
+    <li class="active"><a href="/friends"><i class="icon-user"></i> Friends</a></li>
+{% endblock nav_friends %}
+{% block main_legend %}
+Friends
+{% endblock main_legend %}
 {% block content %}
 <div id="content_friends">
 <div>
-    <h3>CredibleWeb</h3>
+    <h4 class="h3_style_1">CredibleWeb</h4>
+    {% if CW_friends | length == 0 %}
+        <p class="text_center">No friend on Credible Web.</p>
+    {% else %}
+    <table>
+        <tr><td></td><td></td><td></td></tr>
+        {% for cw_friend in CW_friends %}
+            {% if loop.index0 is divisibleby 3 %}
+                <tr>
+            {% endif %}
+                <td> 
+                    <a href="/user/{{ cw_friend.user_id }}">
+                    <img src="{{ cw_friend.picture }}" width="50px" height="50px" /><br />
+                    {{ cw_friend.realname }}
+                    </a>
+                </td>
+            {% if (loop.index0 + 1) is divisibleby 3 %}
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    {% endif %}
+    <!--
     <h4>Following</h4>
     <table>
         <tr><td></td><td></td><td></td></tr>
@@ -29,6 +52,7 @@
             {% endif %}
         {% endfor %}
     </table>
+    
     <br />
     <h4>Followers</h4>
     <table>
@@ -48,25 +72,35 @@
             {% endif %}
         {% endfor %}
     </table>
+    -->
 </div>
 <hr />
 <div>
-    <h3>Facebook</h3>
+    <h4 class="h3_style_1">Facebook</h4>
     {% if FB_friends == None %}
         <p>You don't have a facebook account.</p>
     {% else %}
         <table>
             <tr><td></td><td></td><td></td></tr>
             {% for fb_friend in FB_friends %}
+            {% if loop.index0 <= 8 %}
             {% if loop.index0 is divisibleby 3 %}
                 <tr>
             {% endif %}
                 <td>
+                    {% if loop.index0 < current_fb_on_cw %}
+                        <a href="/user/{{ fb_friend['uid'] }}">
+                    {% endif %}
                     <img src="{{ fb_friend['picture'] }}" width="50px" height="50px" /><br />
                     {{ fb_friend['name'] }}
+                    {% if loop.index0 < current_fb_on_cw %}
+                        <img src="/static/cw_icon.png" width="15" height="15" />
+                        </a>
+                    {% endif %}
                 </td>
             {% if (loop.index0 + 1) is divisibleby 3 %}
                 </tr>
+            {% endif %}
             {% endif %}
             {% endfor %}
         </table>
@@ -75,22 +109,32 @@
 </div>
 <hr />
 <div>
-    <h3>Twitter</h3>
+    <h4 class="h3_style_1">Twitter</h4>
+
     {% if TW_friends == None %}
         <p>You don't have a twitter account.</p>
     {% else %}
         <table>
             <tr><td></td><td></td><td></td></tr>
             {% for tw_friend in TW_friends %}
+            {% if loop.index0 <= 8 %}
             {% if loop.index0 is divisibleby 3 %}
                 <tr>
             {% endif %}
                 <td>
+                    {% if loop.index0 < current_tw_on_cw %}
+                        <a href="/user/{{ tw_friend['uid'] }}">
+                    {% endif %}
                     <img src="{{ tw_friend['picture'] }}" width="50px" height="50px" /><br />
                     {{ tw_friend['name'] }}
+                    {% if loop.index0 < current_tw_on_cw %}
+                        <img src="/static/cw_icon.png" width="15" height="15" />
+                        </a>
+                    {% endif %}
                 </td>
             {% if (loop.index0 + 1) is divisibleby 3 %}
                 </tr>
+            {% endif %}
             {% endif %}
             {% endfor %}
         </table>

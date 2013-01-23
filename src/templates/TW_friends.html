@@ -1,6 +1,6 @@
 {% extends 'friends.html' %}
 {% block docs %}
-<script type="text/javascript" src="/static/lazy_loading.js"></script>
+<script type="text/javascript" src="/static/js/lazy_loading.js"></script>
 <script type="text/javascript">
 var m_origin = "twitter"
 var done = false
@@ -9,7 +9,7 @@ window.onscroll = load_more_friends
 {% endblock docs %}
 {% block content %}
 <div id="content_friends">
-    <h3>Twitter</h3>
+    <h3>Twitter({{ total_tw_on_cw }} on Credible Web)</h3>
     <table id="friends_table">
         <tr><td></td><td></td><td></td></tr>
     {% for tw_friend in TW_friends %}
@@ -17,9 +17,16 @@ window.onscroll = load_more_friends
         <tr>
     {% endif %}
         <td>
+            {% if loop.index0 < current_tw_on_cw %}
+                <a href="/user/{{ tw_friend['uid'] }}">
+            {% endif %}
             <img src="{{ tw_friend['picture'] }}" width=50 height=50 />
             <br />
             {{ tw_friend['name'] }}
+            {% if loop.index0 < current_tw_on_cw %}
+                <img src="/static/cw_icon.png" width="15" height="15" />
+                </a>
+            {% endif %}
             <span style="display:none">{{ tw_friend['id'] }}</span>
         </td>
     {% if (loop.index0 + 1) is divisibleby 3 %}

@@ -1,69 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>{% block title %}Credible Web{% endblock title %}</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <script type="text/javascript" src="/static/main.js"></script>
-    <script type="text/javascript" src="/static/eval_status.js"></script>
-    <link href="/static/style.css" rel="stylesheet">
-    <link href="/static/frame2.css" rel="stylesheet">
-    <link href="/static/basic.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style>
+        body{
+            padding-top: 60px;
+        }
+        .container-fluid{
+            width: 1060px;
+            margin: 0px auto;
+        }
+    </style>
+    <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/frame2.css" rel="stylesheet">
+    <link href="/static/css/basic.css" rel="stylesheet">
     {% block docs %}{% endblock docs %}
 </head>
 
 <body>
-    <div id="topbar">
-	        {% block topbar %}
-	        {% endblock topbar %}
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container-fluid">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <a class="brand" href="/">Credible Web</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        {% block nav_news %}
+                            <li><a href="/news"><i class=" icon-list-alt"></i> News</a></li>
+                        {% endblock nav_news %}
+                        {% block nav_friends %}
+                            <li><a href="/friends"><i class="icon-user"></i> Friends</a></li>
+                        {% endblock nav_friends %}
+                        {% block nav_eval %}
+                            <li><a href="/geteval"><i class="icon-question-sign"></i> Evaluate</a></li>
+                        {% endblock nav_eval %}
+                        {% block nav_ratings %}
+                        <li><a href="/getratings_user"><i class="icon-heart"></i> My Ratings</a></li>
+                        {% endblock nav_ratings %}
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon-cog"></i>
+                                <b class="caret"></b>
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="/feedback">Feedback</a>
+                                </li>
+                                <li>
+                                    <a href="/privacy">Data Privacy</a>
+                                </li>
+                                <li>
+                                    <a href="extension_installation">Plugin Extension</a>
+                                </li>
+                                <li class="divider">
+
+                                </li>
+                                <li>
+                                    <a href="/logoutreq">Log out</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-search pull-right" action="/search" method="get">
+                        <input name="keyword" type="text" class="search-query" placeholder="search for users" onkeyup="showHint(this.value)">
+                        <div id="topnav-hint"></div>
+                    </form>
+                    <div id="friendreq_block">
+                        <div id="friendreq_hint" onclick="expand_collapsed('friendreq_box');">
+                            <div>
+                                <img id="friendreq_box_img" src="/static/friendreq.png" width="20" height="20" style="vertical-align:middle" />
+                            </div>
+                            {% set frnum = (logged_in_user.user_id | get_friendreq_num) %}
+                            <div id="friendreq_num">
+                                {% if frnum > 0 %}
+                                {{ frnum }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div id="friendreq_box">No friend request.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-	<div id="container">
-		<div id="linkList">
-			{% block sidebar %}
-			{% endblock sidebar %}
-		</div>
-		<div id="centerblock">
-            <div id="mainblock">
-                <div class="center_top"></div>
-	            <div id="content">
-	            {% block content %}
-                {% endblock content%}
+    {% block container %}
+	<div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span3" style="width: 300px">
+                {% block sidebar %}
+                {% endblock sidebar %}
+                {% block heavenblock %}
+                <div id="heavenblock">
+                    <div id="heaven_content">
+                        {% block heaven_content %}
+                        {% endblock heaven_content %}
+                    </div>
                 </div>
-                <div id="loading">
-	               <img src="/static/loading.gif" />
-                </div>
-               <div class="center_bottom"></div>
-	       </div>
-	       {% block rmdblock %}
-	       <div id="rmdblock">
-	           <div class="center_top"></div>
-	           <div id="rmdcontent">
-	               {% block rmdcontent %}
-	               {% endblock rmdcontent %}
+                {% endblock heavenblock %}
+            </div>
+            <div class="span8" style="width: 730px">
+                {% block mainblock %}
+                <div id="mainblock">
+                    <fieldset>
+                        <legend>{% block main_legend %}{% endblock main_legend %}</legend>
+                        <div id="content">
+                        {% block content %}
+                        {% endblock content%}
+                        </div>
+                        <div id="loading">
+                           <img src="/static/loading.gif" />
+                        </div>
+                    </fieldset>
                </div>
-	           <div class="center_bottom"></div>
-           </div>
-           {% endblock rmdblock %}
-	    </div>
-	    <div id="rightbar">
-	       <div id="heaven_block">
-	           <div class="right_top"></div>
-	           <div id="heaven_content">
-	               {% block heaven_content %}
-	               {% endblock heaven_content %}
+                {% endblock mainblock %}
+               {% block rmdblock %}
+               <div id="rmdblock">
+                    <fieldset>
+                        <legend>Evaluate more web pages!</legend>
+                       <div id="rmdcontent">
+                           {% block rmdcontent %}
+                           {% endblock rmdcontent %}
+                       </div>
+                    </fieldset>
                </div>
-	           <div class="right_bottom"></div>
-           </div>
+               {% endblock rmdblock %}
+            </div>
+            <!--<div id="footer">-->
+                <!--<a href="/">Home</a>-->
+                <!--|-->
+                <!--<a href="/extension_installation">Install Extension</a>-->
+                <!--|-->
+                <!--<a href="/privacy">Data Privacy</a>-->
+                <!--|-->
+                <!--<a href="/feedback">Feedback</a>-->
+            <!--</div>-->
+            <!--<div class="expand"></div>-->
         </div>
-        <div id="footer">
-            <a href="/">Home</a>
-            |
-            <a href="/extension_installation">Intall Extension</a>
-            |
-            <a href="/privacy">Data Privacy</a>
-            |
-            <a href="/feedback">Feedback</a>
-        </div>
-	    <div class="expand"></div>
 	 </div>
+    {% endblock container %}
+    <script type="text/javascript" src="/static/js/main.js"></script>
+    <script type="text/javascript" src="/static/js/eval_status.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,18 +1,98 @@
 {% if status|length == 0 %}
     <p>No one has rated this page.</p>
 {% else %}
-URL: {{ url }}
-<table cellspacing="20px">
+<table>
 <tr>
-    <th>Score</th>
-    <th>Numer of Raters</th>
+    <th align="left">Overall Credibility</th>
+    <td>
+        {% for number in range(avg | int) %}
+            <img src="/static/star.png" width="20" height="20" title="{{ avg }}" />
+        {% endfor %}
+        {% for number in range(5-(avg | int)) %}
+            <img src="/static/star-bw.png" width="20" height="20" title="{{ avg }}" />
+        {% endfor %}
+    </td>
+    <td align="left">
+        {{ total }} reviews
+    </td>
 </tr>
-{% for item in status %}
 <tr>
-    <th>{{ item[0] }}</th>
-    <td>{{ item[1] }}</td>
+    <th align="left">Truthfulness</th>
+    <td>
+        {% if truthfulness == 0 %}
+            <span class="muted">Unavailable</span>
+        {% else %}
+            {% for number in range(truthfulness | int) %}
+            <img src="/static/star.png" width="20" height="20" title="{{ truthfulness }}" />
+            {% endfor %}
+            {% for number in range(5-(truthfulness | int)) %}
+            <img src="/static/star-bw.png" width="20" height="20" title="{{ truthfulness }}" />
+            {% endfor %}
+        {% endif %}
+    </td>
 </tr>
-{% endfor %}
+    <tr>
+        <th align="left">Unbiased</th>
+        <td>
+            {% if unbiased == 0 %}
+            <span class="muted">Unavailable</span>
+            {% else %}
+            {% for number in range(unbiased | int) %}
+            <img src="/static/star.png" width="20" height="20" title="{{ unbiased }}" />
+            {% endfor %}
+            {% for number in range(5-(unbiased | int)) %}
+            <img src="/static/star-bw.png" width="20" height="20" title="{{ unbiased }}" />
+            {% endfor %}
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th align="left">Security</th>
+        <td>
+            {% if security == 0 %}
+            <span class="muted">Unavailable</span>
+            {% else %}
+            {% for number in range(security | int) %}
+            <img src="/static/star.png" width="20" height="20" title="{{ security }}" />
+            {% endfor %}
+            {% for number in range(5-(security | int)) %}
+            <img src="/static/star-bw.png" width="20" height="20" title="{{ security }}" />
+            {% endfor %}
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th align="left">Design</th>
+        <td>
+            {% if design == 0 %}
+            <span class="muted">Unavailable</span>
+            {% else %}
+            {% for number in range(design | int) %}
+            <img src="/static/star.png" width="20" height="20" title="{{ design }}" />
+            {% endfor %}
+            {% for number in range(5-(design | int)) %}
+            <img src="/static/star-bw.png" width="20" height="20" title="{{ design }}" />
+            {% endfor %}
+            {% endif %}
+        </td>
+    </tr>
+<!--{% for item in status %}-->
+<!--<tr>-->
+    <!--<th align="right">-->
+        <!--{% if loop.index0 == 0 %}-->
+            <!--Rating Distribution:-->
+        <!--{% endif %}-->
+    <!--</th>-->
+    <!--<td>-->
+        <!--{% for number in range(5-loop.index0) %}-->
+            <!--<img src="/static/star.png" width="20" height="20" title="{{ 5-loop.index0 }}" />-->
+        <!--{% endfor %}-->
+        <!--{% for number in range(loop.index0) %}-->
+            <!--<img src="/static/star-bw.png" width="20" height="20" title="{{ 5-loop.index0 }}" />-->
+        <!--{% endfor %}-->
+    <!--</td>-->
+    <!--<td align="left">{{ item }} ratings</td>-->
+<!--</tr>-->
+<!--{% endfor %}-->
 </table>
-Average Score: {{ avg }}
 {% endif %}

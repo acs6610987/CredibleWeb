@@ -1,46 +1,128 @@
-{% extends "homepage.html" %}
+{% extends "base2.html" %}
+{% block container %}
+<div class="container-fluid">
+    <div id="userblock">
+        <div class="div_light_bottom">
+            <div style="text-align: center; float: right">
+                {% if is_friend == -1 %}
+                <button type="button" class="btn btn-info" onclick="add_friend('{{ user.user_id }}', this)" >Add Friend</button>
+                {% elif is_friend == 0 %}
+                <button type="button" class="btn btn-info" disabled>Request Sent</button>
+                {% else %}
+                <button type="button" class="btn btn-info" disabled >Friend</button>
+                {% endif %}
+            </div>
+            <table cellpadding="10px">
+                <tr>
+                    <td valign="top">
+                        <div class="profilepic">
+                            <a href="/user/{{ user.user_id }}"><img width=60 height=60 src="{{ user.picture }}"/></a>
+                        </div>
+                    </td>
+                    <td align="left" valign="top">
+                        <div class="fullname">
+                            <p>{{ user.firstname }} {{ user.lastname }}</p>
+                            <p><a href="/user/{{ user.user_id }}/profile">Profile</a></p>
+                            <p class="text_blue">
+                            <span class="m_big_bold">
+                                {{ user.user_id | get_points }}
+                            </span>
+                                points
+                            </p>
+                        </div>
+                    </td>
+                    <td align="center" valign="top">
+                        <div>
+                            <p><img width="50" height="50" src="/static/rank_img/{{ user.user_id | get_level }}.png" /></p>
+                            <p class="text_center">{{ user.user_id | get_status }}</p>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div style="margin-top: 20px">
+            <ul class="nav nav-tabs">
+                {% block nav_user_ratings %}
+                <li><a href="/user/{{ user.user_id }}/ratings">Ratings</a></li>
+                {% endblock nav_user_ratings %}
+                {% block nav_user_profile %}
+                <li>
+                    <a href="/user/{{ user.user_id }}/profile">Profile</a>
+                </li>
+                {% endblock nav_user_profile %}
 
-{% block sidebar %}
-<div id="lprofile">
-    <div class="left_top"></div>
-    <ul>
-        <li>
-        <div class="profilepic">
-		  <img width=50 height=50 src="{{ user.picture }}"></img>
-    	</div>
-    	</li>
-    	<li>
-        <div class="fullname">
-	   	   <p>{{ user.realname }}</p>
+                {% block nav_user_friends %}
+                <li><a href="/user/{{ user.user_id }}/friends">Friends</a></li>
+                {% endblock nav_user_friends %}
+            </ul>
+            <div>
+                {% block user_content %}
+                {% endblock user_content %}
+            </div>
         </div>
-        </li>
-        <li>
-        <div style="clear:both">
-            {% if (logged_in_user.user_id|is_friend(user.user_id))  %}
-                <input type="button" value="Cancel Following"
-                    onclick="follow_user('{{ user.user_id }}', this)" />
-            {% else %}
-                <input type="button" value="Follow"
-                    onclick="follow_user('{{ user.user_id }}', this)" />
-            {% endif %}
-        </div>
-        </li>
-     </ul>
-     <div class="left_bottom"></div>
+    </div>
 </div>
-<div id="lfuncnav">
-    <div class="left_top"></div>
-    <ul>
-        <li>
-            <p><a href="/user/{{ user.user_id }}/ratings">Ratings</a></p>
-        </li>
-        <li>
-            <p><a href="/user/{{ user.user_id }}/following">Following</a></p>
-        </li>
-        <li>
-            <p><a href="/user/{{ user.user_id }}/followers">Followers</a></p>
-        </li>
-    </ul>
-    <div class="left_bottom"></div>
-</div>
-{% endblock sidebar %}
+{% endblock container %}
+
+<!--{% block sidebar %}-->
+<!--<div id="lprofile">-->
+    <!--<table style="width: 100%">-->
+        <!--<tr>-->
+            <!--<td valign="top">-->
+                <!--<div class="profilepic">-->
+                    <!--<a href="/user/{{ user.user_id }}"><img width=60 height=60 src="{{ user.picture }}"/></a>-->
+                <!--</div>-->
+            <!--</td>-->
+            <!--<td align="left" valign="top">-->
+                <!--<div class="fullname">-->
+                    <!--<p>{{ user.firstname }} {{ user.lastname }}</p>-->
+                    <!--<p><a href="/user/{{ user.user_id }}/profile">Profile</a></p>-->
+                    <!--<p class="text_blue">-->
+                            <!--<span class="m_big_bold">-->
+                                <!--{{ user.user_id | get_points }}-->
+                            <!--</span>-->
+                        <!--points-->
+                    <!--</p>-->
+                <!--</div>-->
+            <!--</td>-->
+            <!--<td align="center" valign="top">-->
+                <!--<div>-->
+                    <!--<p><img width="50" height="50" src="/static/rank_img/{{ user.user_id | get_level }}.jpg" /></p>-->
+                    <!--<p class="text_center">{{ user.user_id | get_status }}</p>-->
+                <!--</div>-->
+            <!--</td>-->
+        <!--</tr>-->
+    <!--</table>-->
+    <!--<div style="text-align: center">-->
+        <!--{% if is_friend == -1 %}-->
+        <!--<button type="button" class="btn btn-info" onclick="add_friend('{{ user.user_id }}', this)" >Add Friend</button>-->
+        <!--{% elif is_friend == 0 %}-->
+        <!--<button type="button" class="btn btn-info" disabled>Request Sent</button>-->
+        <!--{% else %}-->
+        <!--<button type="button" class="btn btn-info" disabled >Friend</button>-->
+        <!--{% endif %}-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div id="lfuncnav">-->
+    <!--<ul>-->
+        <!--<li>-->
+            <!--<p><a href="/user/{{ user.user_id }}/ratings">Ratings</a></p>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<p><a href="/user/{{ user.user_id }}/friends">Friends</a></p>-->
+        <!--</li>-->
+        <!--&lt;!&ndash;-->
+        <!--<li>-->
+            <!--<p><a href="/user/{{ user.user_id }}/following">Following</a></p>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<p><a href="/user/{{ user.user_id }}/followers">Followers</a></p>-->
+        <!--</li>-->
+        <!--&ndash;&gt;-->
+    <!--</ul>-->
+<!--</div>-->
+<!--{% endblock sidebar %}-->
+<!--{% block heavenblock %}-->
+<!--{% endblock heavenblock %}-->
+<!--{% block rmdblock %}-->
+<!--{% endblock rmdblock %}-->

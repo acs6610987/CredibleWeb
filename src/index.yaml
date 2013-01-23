@@ -34,6 +34,12 @@ indexes:
 
 - kind: Rating
   properties:
+  - name: url
+  - name: time
+    direction: desc
+
+- kind: Rating
+  properties:
   - name: user_id
   - name: rating
     direction: desc
@@ -48,6 +54,12 @@ indexes:
   properties:
   - name: user_id
   - name: url
+
+- kind: User
+  properties:
+  - name: picture
+  - name: realname
+  - name: user_id
 
 - kind: User
   properties:

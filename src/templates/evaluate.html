@@ -1,12 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>CredibleWeb</title>
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<link href="/static/frame3.css" rel="stylesheet">
-<link href="/static/basic.css" rel="stylesheet">
-<script type="text/javascript" src="/static/main.js"></script>
-<script type="text/javascript" src="/static/evaluate.js"></script>
-<script type="text/javascript" src="/static/eval_status.js"></script>
+    <title>CredibleWeb</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="/static/css/frame3.css" rel="stylesheet">
+    <link href="/static/css/basic.css" rel="stylesheet">
 </head>
 <body>
 <div id="pagecontainer">
@@ -25,14 +25,6 @@
                     <li>Browse <a href="{{ url }}" target="view_window">{{ url }}</a>, and then give your ratings in the bottom bar.</li>
                     <li>Follow <a href="/extension_installation">this page</a> to install our extension.</li>
                 </ul>
-                <!--<form onsubmit="submit_rating(this, &quot;{{ url }}&quot;); return false;">
-                    <input type="radio" name="rating" value="1" />1<br />
-                    <input type="radio" name="rating" value="2" />2<br />
-                    <input type="radio" name="rating" value="3" checked="checked" />3<br />
-                    <input type="radio" name="rating" value="4" />4<br />
-                    <input type="radio" name="rating" value="5" />5<br />
-                    <input type="submit" value="Submit" />
-                </form>-->
             </div>
         </div>
     {% else %}
@@ -41,65 +33,224 @@
             window.close();
         </script>
     {% endif %}
-    <div id="cheer_dialog" style="position:fixed; top:0; left:0; right:0; bottom:0;background-color:rgba(0, 0, 0, 0.5);display:none">
-        <div style="position:relative; top:200px; left:500px; width:350px; z-index:6000; background-color:white; padding:10px">
-            <div style="position:absolute; right:0; top:0; margin:2px;" 
-                onmouseover="over_close(this, true)"
-                onmouseout="over_close(this, false)"
-                onclick="document.getElementById('cheer_dialog').style.display = 'none'">
-                <img src="/static/close.png" />
+</div>
+<div class="navbar navbar-inverse navbar-fixed-bottom">
+    <div class="navbar-inner">
+            <div id="eval_func_table" class="m_table">
+                <div id="eval_func_row" class="m_table_row">
+                    <div id="evaluser" class="m_table_cell_center">
+                        <div class="m_table" style="margin: 0px 20px">
+                            <div class="m_table_row">
+                                <div class="m_table_cell_center">
+                                    <img src="{{ logged_in_user.picture }}" width="30" height="30" />
+                                </div>
+                                &nbsp; &nbsp;
+                                <div class="m_table_cell_center">
+                                    <span id="user_points" class="m_big_bold">
+                                        {{ logged_in_user.user_id | get_points }}
+                                    </span>
+                                    points
+                                    &nbsp; &nbsp;
+                                    <span id="user_status" class="m_big_bold">
+                                        {{ logged_in_user.user_id | get_status }}
+                                    </span>
+                                </div>
+                                &nbsp; &nbsp;
+                                <div class="m_table_cell_center">
+                                    <a href="#evalModal" role="button" class="btn" data-toggle="modal">Evaluate</a>
+                                    <a href="/bored_rmd" data-target="#boredRmdModal" role="button" class="btn" data-toggle="modal">I'm bored!</a>
+                                    <a href="/help_rmd" data-target="#helpRmdModal" role="button" class="btn" data-toggle="modal">I want to help!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider-vertical"></div>
+                    <div id="evalsimple" class="m_table_cell_center">
+                        <img style="display:none" src="/static/star.png" />
+                        <div class="m_table" style="margin: 0px auto">
+                            <div class="m_table_row">
+                                <div class="m_table_cell_center">
+                                    <span>
+                                        {% if url_info is none %}
+                                            Unknown Topic
+                                        {% else %}
+                                            {{ url_info.topic | get_topic_text }}
+                                        {% endif %}
+                                    </span>
+                                    .
+                                    Rate it for
+                                    <span class="m_big_bold">
+                                        {{ points }}
+                                    </span>
+                                    points!
+                                    &nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <img src="/static/smile.png" width="60px" height="60px" />
-            Good! You have rated this page!
+    </div>
+</div>
+
+<div id="evalModal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3>What do you think?</h3>
+    </div>
+    <div class="modal-body">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#eval-tab1" data-toggle="tab">Your Review</a></li>
+                <li><a href="#eval-tab2" data-toggle="tab" onclick="load_reviews(&quot;{{ url }}&quot;)">Past Reviews</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="eval-tab1">
+                    <div id="help_block">
+                    </div>
+                    <form id="my_eval_form">
+                        <h4>Support your review</h4>
+                        <p class="muted">
+                            If you have identified some issue about this page, put it here. It helps others understand, upvote you review
+                            and to earn you reputation.
+                        </p>
+                        <textarea name="comment" style="width: 470px; height: 100px"></textarea>
+                        <h4>Overall credibility score</h4>
+                        <div>
+                            <input type="hidden" name="overall_rating" id="overall_rating" value="3" />
+                            <label class="m_pointer" onmouseover="evalScore(this, event, '')"
+                                  onclick="evalScore(this, event, 'overall_rating')"
+                                  onmouseout="evalChoice(this, 'astar', 'overall_rating')">
+                                <img title="very non-credible" id='astar1' src='/static/star.png' width="30" height="30" />
+                                <img title="somewhat non-credible" id='astar2' src='/static/star.png' width="30" height="30" />
+                                <img title="confusing" id='astar3' src='/static/star.png' width="30" height="30" />
+                                <img title="somewhat credible" id='astar4' src='/static/star-bw.png' width="30" height="30" />
+                                <img title="very credible" id='astar5' src='/static/star-bw.png' width="30" height="30" />
+                            </label>
+                        </div>
+                        <h4>More details</h4>
+                        <table>
+                            <tr>
+                                <td>Truthfulness</td>
+                                <td>
+                                    <input type="hidden" name="truthfulness" id="truthfulness" value="0" />
+                                    <label class="m_pointer" onmouseover="evalScore(this, event, '')"
+                                          onclick="evalScore(this, event, 'truthfulness')"
+                                          onmouseout="evalChoice(this, 'bstar', 'truthfulness')">
+                                        <img title="Terrible" id='bstar1' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Poor" id='bstar2' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Average" id='bstar3' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Good" id='bstar4' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Excellent" id='bstar5' src='/static/star-bw.png' width="18" height="18" />
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Unbiased</td>
+                                <td>
+                                    <input type="hidden" name="unbiased" id="unbiased" value="0" />
+                                    <label class="m_pointer" onmouseover="evalScore(this, event, '')"
+                                           onclick="evalScore(this, event, 'unbiased')"
+                                           onmouseout="evalChoice(this, 'cstar', 'unbiased')">
+                                        <img title="Terrible" id='cstar1' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Poor" id='cstar2' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Average" id='cstar3' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Good" id='cstar4' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Excellent" id='cstar5' src='/static/star-bw.png' width="18" height="18" />
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Security</td>
+                                <td>
+                                    <input type="hidden" name="security" id="security" value="0" />
+                                    <label class="m_pointer" onmouseover="evalScore(this, event, '')"
+                                           onclick="evalScore(this, event, 'security')"
+                                           onmouseout="evalChoice(this, 'dstar', 'security')">
+                                        <img title="Terrible" id='dstar1' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Poor" id='dstar2' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Average" id='dstar3' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Good" id='dstar4' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Excellent" id='dstar5' src='/static/star-bw.png' width="18" height="18" />
+                                    </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Page design</td>
+                                <td>
+                                    <input type="hidden" name="design" id="design" value="0" />
+                                    <label class="m_pointer" onmouseover="evalScore(this, event, '')"
+                                           onclick="evalScore(this, event, 'design')"
+                                           onmouseout="evalChoice(this, 'estar', 'design')">
+                                        <img title="Terrible" id='estar1' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Poor" id='estar2' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Average" id='estar3' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Good" id='estar4' src='/static/star-bw.png' width="18" height="18" />
+                                        <img title="Excellent" id='estar5' src='/static/star-bw.png' width="18" height="18" />
+                                    </label>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="text_center">
+                            <button type="button" class="btn"
+                                    onclick="submit_rating('my_eval_form', &quot;{{ url }}&quot;, {{ points }})" >
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="tab-pane" id="eval-tab2">
+                    <div id="eval_stat">
+                    </div>
+                    <div id="eval_comments">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="gain_points">
+
         </div>
     </div>
 </div>
-<div id="evalbar">
-        <div id="evaljump">
-            <form method="get"  onsubmit="open_page(document.getElementById('url').value);return false;">
-                URL:<input type="text" name="url" id="url" size="17"></input>
-                <input type="submit" value="Go" />
-            </form>
+
+<div id="boredRmdModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="boredRmdModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="boredRmdModalLabel">Try some new stuff!</h3>
+    </div>
+    <div class="modal-body">
+        <div style="width: 100%;text-align: center">
+            <img src="/static/loading.gif" />
+            Loading...
         </div>
-        <div id="evaloptions">
-            <input type="button" value="I'm bored" onclick="window.location='/randomRMD'" />
-            <input type="button" value="I want to help" onclick="window.location='/randomRMD'" />
-        </div>
-        <div id="evalsimple">
-            <img style="display:none" src="/static/star.png" />
-            <form onsubmit="submit_simplerating(this, &quot;{{ url }}&quot;); return false;">
-                <input type="hidden" size="3" name="rating" id="evalsimple_rating" value="0" />
-                <span onclick="evalScore(this, event, 'evalsimple_rating','attitudeTitle')">
-                    <img title="very non-credible" id='star1' src='/static/star-bw.png' width="30" height="30" />
-                    <img title="somewhat non-credible" id='star2' src='/static/star-bw.png' width="30" height="30" />
-                    <img title="confusing" id='star3' src='/static/star-bw.png' width="30" height="30" /> 
-                    <img title="somewhat credible" id='star4' src='/static/star-bw.png' width="30" height="30" />
-                    <img title="very credible" id='star5' src='/static/star-bw.png' width="30" height="30" />
-                    <span id="attitudeTitle" class='evalInfo'></span>
-                </span>
-                <input type="submit" value="Rate It" style="position:relative; top:-4px" />
-                <input type="button" value="Next" style="position:relative; top:-4px" onclick="window.location='/userRMD'" />
-            </form>
-        </div>
-        <div id="evalacts">
-            <ul>
-                <li onclick="expand_collapsed(document.getElementById('evalform'))">Evaluate</li>
-                <li onclick="display_stat(&quot;{{ url }}&quot;)">Statistics</li>
-            </ul>
-        </div>
-        <div id="evalform">
-            <p>Give Your Rating Of This Page:</p>
-            <form onsubmit="submit_rating(this, &quot;{{ url }}&quot;); return false;">
-                <input type="radio" name="rating" value="1" />1<br />
-                <input type="radio" name="rating" value="2" />2<br />
-                <input type="radio" name="rating" value="3" checked="checked" />3<br />
-                <input type="radio" name="rating" value="4" />4<br />
-                <input type="radio" name="rating" value="5" />5<br />
-                <input type="submit" value="Submit" />
-            </form>
-        </div>
-        <div id="status_table">
-        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
 </div>
+
+<div id="helpRmdModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="help-us" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="help-us">Help us!</h3>
+    </div>
+    <div class="modal-body">
+        <div style="width: 100%;text-align: center">
+            <img src="/static/loading.gif" />
+            Loading...
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+</div>
+    <script type="text/javascript" src="/static/js/main.js"></script>
+    <script type="text/javascript" src="/static/js/evaluate.js"></script>
+    <script type="text/javascript" src="/static/js/eval_status.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+
 </body>
 </html>

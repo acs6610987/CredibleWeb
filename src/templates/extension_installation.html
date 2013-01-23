@@ -1,6 +1,8 @@
 {% extends 'base1.html' %}
-{% block content %}
-<h1>Credible Web Extension</h1>
+{% block modal_title %}
+Credible Web Extension
+{% endblock modal_title %}
+{% block modal_body %}
 We are using frames to embed a web page so that you can evaluate it inside our website. However, some websites(famous ones including Google) don't support this for privacy and security issues. To make up for this, we have developed an extension(currently only supports Chrome browser) with which you can evaluate any page while browsing it. You can download the extension <a href="/static/cwextension.crx">here</a>, and follow these steps to add the extension to Chrome:
 <ul style="list-style-type:decimal">
 <li><a href="/static/cwextension.crx">Download the extension file</a> and save it to your computer.</li>
@@ -10,4 +12,4 @@ We are using frames to embed a web page so that you can evaluate it inside our w
 <li>Review the list of permissions in the dialog that appears. If you would like to proceed, click Install.</li>
 (Reference From Google: <a href="http://support.google.com/chrome_webstore/bin/answer.py?hl=en&hlrm=zh-Hans&p=crx_warning&answer=2664769">Adding extensions from other websites</a>)
 </ul>
-{% endblock content %}
+{% endblock modal_body %}

@@ -3,9 +3,16 @@
         <tr>
     {% endif %}
         <td>
+            {% if loop.index0 < current_on_cw %}
+                <a href="/user/{{ friend['uid'] }}">
+            {% endif %}
             <img src="{{ friend['picture'] }}" width=50 height=50 />
             <br />
             {{ friend['name'] }}
+            {% if loop.index0 < current_on_cw %}
+                <img src="/static/cw_icon.png" width="15" height="15" />
+                </a>
+            {% endif %}
             <span style="display:none">{{ friend['id'] }}</span>
         </td>
     {% if (loop.index0 + 1) is divisibleby 3 %}

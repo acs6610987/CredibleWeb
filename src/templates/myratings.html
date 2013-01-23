@@ -1,29 +1,80 @@
 {% extends 'homepage.html' %}
-{% block sidebar_ratings %}
-<li>
-    <p style="background-color:#dddddd"><a href="/getratings">My Ratings</a></p>
-</li>
-{% endblock sidebar_ratings %}
+{% block nav_ratings %}
+<li class="active"><a href="/getratings_user"><i class="icon-heart"></i> My Ratings</a></li>
+{% endblock nav_ratings %}
+{% block main_legend %}
+Footprints
+{% endblock main_legend %}
 {% block content %}
 <div id = "content_ratings">
-<ul>
-    {% if ratings | length == 0 %}
-        You haven't rated any pages.
-    {% endif %}
+{% if ratings | length == 0 %}
+    <p>You haven't rated any pages.</p>
+{% endif %}
     {% for item in ratings %}
-    <li>
-        {{ logged_in_user.realname }} rate <span class="evalscore">{{ item.rating }}</span> on webpage <span class="evalurl" onclick="open_page(&quot;{{ item.url }}&quot;)">{{ item.url }}</span>.  ---{{ item.time | datetime_format }}
-    </li>
-    <hr />
+    <div class="div_light_bottom">
+        <!--<p><a href="#" onclick="open_page(&quot;{{ item.url }}&quot;)">{{ item.url }}</a></p>-->
+        <!--<p>-->
+            <!--{% for number in range(item.rating) %}-->
+            <!--<img src="/static/star.png" width="25" height="25" title="{{ item.rating }}" />-->
+            <!--{% endfor %}-->
+            <!--{% for number in range(5-item.rating) %}-->
+            <!--<img src="/static/star-bw.png" width="25" height="25" title="{{ item.rating }}" />-->
+            <!--{% endfor %}-->
+        <!--</p>-->
+        <!--<div class="m_table_row">-->
+            <!--<div class="m_table_cell">-->
+                <!--{{ item.comment }}-->
+                <!--&nbsp;&nbsp;-->
+                <!--<span class="span_time">({{ item.time | datetime_format }})</span>-->
+            <!--</div>-->
+        <!--</div>-->
+        {% set url_info = (item.url | get_url_info) %}
+        <div class="m_table">
+            <div class="m_table_row">
+                <div class="m_table_cell" style="width: 140px">
+                    <a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">
+                        <img src="{{ url_info.snapshot }}" style="width: 130px;height: 100px" class="m_border_style" />
+                    </a>
+                </div>
+                <div class="m_table_cell">
+                    <h5 class="break_text h3_style_1">{{ url_info.title }}</h5>
+                    <!--<p><a href="#" onclick="open_page(&quot;{{ item.url }}&quot;)">{{ item.url }}</a></p>-->
+                    <p>{{ url_info.topic | get_topic_text }}</p>
+                    <p>
+                        {% for number in range(item.rating) %}
+                        <img src="/static/star.png" width="25" height="25" title="{{ item.rating }}" />
+                        {% endfor %}
+                        {% for number in range(5-item.rating) %}
+                        <img src="/static/star-bw.png" width="25" height="25" title="{{ item.rating }}" />
+                        {% endfor %}
+                    </p>
+                    <p><span class="span_time">({{ item.time | datetime_format }})</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="m_table" style="width: 100%">
+            <div class="m_table_row">
+                <div class="well well-small">
+                <div class="m_table_cell">
+                    <img src="{{ item.user_id | get_picture_by_id }}" width="30" height="30">
+                </div>
+                <div class="m_table_cell">
+                    <p>
+                        <a href="/user/{{ item.user_id }}">{{ item.user_id | get_name_by_id }}</a>
+                        said:
+                    </p>
+                    <p>
+                        &quot;
+                        {{ item.comment }}
+                        &quot;
+                    </p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</ul>
 </div>
 {% endblock content %}
-{% block rmdcontent %}
-    <p>You might want to evaluate credibility of the following urls:</p>
-    <ul>
-    {% for item in recommendations %}
-        <li>{{ item.topic }}:<a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">{{ item.url }}</a></li>
-    {% endfor %}
-    </ul>
-{% endblock rmdcontent %}
+{% block rmdblock %}
+{% endblock rmdblock %}

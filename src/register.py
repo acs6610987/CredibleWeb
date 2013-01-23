@@ -9,18 +9,22 @@ import hashlib
 jinja_environment = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.join(os.path.dirname(__file__), 'templates/')))
 
-UNAVAILABLE_USERNAME = 1
+UNAVAILABLE_EMAIL = 1
 
 class RegisterHandler(BasicHandler):
     def post(self):    
-        username = self.request.get('username')
-        user = User.gql('WHERE username = :1', username).get()
+        email = self.request.get('email')
+        user = User.gql('WHERE email = :1', email).get()
         if user:
             self.render('register.html',
-                        reg_state = UNAVAILABLE_USERNAME)
+                        reg_state = UNAVAILABLE_EMAIL,
+                        email = email)
             return
-        userInfo = {'realname':self.request.get('realname'),
-                    'username':self.request.get('username'),
+        firstname = self.request.get('firstname').capitalize()
+        lastname = self.request.get('lastname').capitalize()
+        userInfo = {'firstname':firstname,
+                    'lastname':lastname,
+                    'realname':firstname+' '+lastname,
                     'password':hashlib.sha1(self.request.get('password')).hexdigest(),
                     'picture':'/static/default.jpg',
                     'email':self.request.get('email'),
@@ -35,16 +39,17 @@ class RegisterHandler(BasicHandler):
         self.redirect('/')        
     
     def get(self):
-        username = self.request.get('username')
-        logging.info(username)
-        if username:
-            user = User.gql('WHERE username = :1', username).get()
+        email = self.request.get('email')
+        if email:
+            user = User.gql('WHERE email = :1', email).get()
             if user:
                 self.response.out.write("exist")
             else:
                 self.response.out.write('available')
             return
-        self.render('register.html')
+        self.render('register.html',
+                    reg_state = 0,
+                    email = '')
 
 
 app = webapp2.WSGIApplication([('/register', RegisterHandler)], 

@@ -1,118 +1,500 @@
 {% extends "base2.html" %}
-	
+{#
 {% block topbar %}
 <div id="topnav">
     <ul id="topnav-acts">
-        <li><a href="/" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#dddddd'">Homepage</a></li>
-        <li><a href="/logoutreq" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#dddddd'">Logout</a></li>
+        <li><a href="/">Homepage</a></li>
+
+        <li>
+            <a href="/news"> News</a>
+        </li>
+        <li>
+            <a href="/friends">Friends</a>
+        </li>
+        <li>
+            <a href="/geteval">Evaluation</a>
+        </li>
+        <li>
+            <a href="/getratings_user">My Ratings</a>
+        </li>
+        <li><a href="/logoutreq">Logout</a></li>
     </ul>
     <div id="topnav-tools">
-        <form action="/search" method="get">
-            <input type="text" name="keyword" size="20" value="search for user" style="color:grey"
-                onblur="search_placeholder(this, false)" onfocus="search_placeholder(this, true)" onkeyup="showHint(this.value)" />
-        </form>
-        <div id="topnav-hint">
-        
+        <div style="float:right; height:100%; line-height:40px; position:relative">
+            <form action="/search" method="get">
+                <input id="topnav-hint-input" type="text" name="keyword" size="20" value="search for user" style="color:grey"
+                    onblur="search_placeholder(this, false, 'topnav-hint')" onfocus="search_placeholder(this, true, 'topnav-hint')" onkeyup="showHint(this.value)" />
+            </form>
+            <div id="topnav-hint"></div>
+        </div>
+        <div id="friendreq_block" onclick="expand_collapsed('friendreq_box');">
+            <div id="friendreq_hint">
+                <div>
+                    <img id="friendreq_box_img" src="/static/friendreq.png" width="20" height="20" style="vertical-align:middle" />
+                </div>
+                {% set frnum = (logged_in_user.user_id | get_friendreq_num) %}
+                <div id="friendreq_num">
+                    {% if frnum > 0 %}
+                        {{ frnum }}
+                    {% endif %}
+                </div>
+            </div>
+            <div id="friendreq_box">No friend request.</div>
         </div>
     </div>
 </div>
 {% endblock topbar %}
-
+#}
 {% block sidebar %}
     <div id="lprofile">
-        <div class="left_top"></div>
-        <ul>
-        <li>
-        <div class="profilepic">
-		  <a href="/user/{{ logged_in_user.user_id }}/ratings"><img width=50 height=50 src="{{ logged_in_user.picture }}"></img></a>
-    	</div>
-    	</li>
-    	<li>
-        <div class="fullname">
-	   	   <p>{{ logged_in_user.realname }}</p>
-        </div>
-        </li>
-        <li>
-        <div style="clear:both">
-            <a href="/editprofile">Edit Your Profile</a>
-        </div>
-        </li>
-        </ul>
-        <div class="left_bottom"></div>
+        <table id="profile_table">
+            <tr>
+                <td valign="top">
+                    <div class="profilepic">
+		              <a href="/"><img width=60 height=60 src="{{ logged_in_user.picture }}"/></a>
+    	            </div>
+                </td>
+                <td align="left" valign="top">
+                    <div class="fullname">
+                        <p>{{ logged_in_user.firstname }} {{ logged_in_user.lastname }}</p>
+                        <p><a href="/profile">Profile</a></p>
+	   	                <p class="text_blue">
+                            <span class="m_big_bold">
+                                {{ logged_in_user.user_id | get_points }}
+                            </span>
+                            points
+                        </p>
+                    </div>
+                </td>
+                <!--<td align="center" valign="top">-->
+                    <!--<div>-->
+                        <!--<p><img width="50" height="50" src="/static/rank_img/{{ logged_in_user.user_id | get_level }}.jpg" /></p>-->
+                        <!--<p class="text_center">{{ logged_in_user.user_id | get_status }}</p>-->
+                    <!--</div>-->
+                <!--</td>-->
+            </tr>
+            <!--<tr>-->
+                <!--<td>-->
+                    <!--<div style="clear:both">-->
+                        <!--<a href="/profile">Profile</a>-->
+                    <!--</div>-->
+                <!--</td>-->
+                <!--<td></td>-->
+                <!--<td></td>-->
+            <!--</tr>-->
+        </table>
 	</div>
-	<div id="lfuncnav">
-	<div class="left_top"></div>
-	<ul>
-        {% block sidebar_news %}
-        <li>
-            <p><a href="/news"> News</a></p>
-        </li>
-        {% endblock sidebar_news %}
-        {% block sidebar_friends %}
-		<li>
-			<p><a href="/friends">Friends</a></p>
-		</li>
-        {% endblock sidebar_friends %}
-        {% block sidebar_evaluation %}
-		<li>
-            <p><a href="/geteval">Evaluation</a></p>
-        </li>
-        {% endblock sidebar_evaluation %}
-        {% block sidebar_ratings %}
-        <li>
-            <p><a href="/getratings">My Ratings</a></p>
-        </li>
-        {% endblock sidebar_ratings %}
-        {% block sidebar_merge %}
-        <li>
-            <p><a href="/accountmerge">Merge Account</a></p>
-        </li>
-        {% endblock sidebar_merge %}
-	</ul>
-	<div class="left_bottom"></div>
-	</div>
-	<div id="lresources">
-	   <div class="left_top"></div>
-	   <ul>
-	       <li>
-	           <p><a href="/feedback">Feedback</a></p>
-           </li>
-           <li>
-               <p><a href="#">About us</a></p>
-           </li>
-       </ul>
-       <div class="left_bottom"></div>
-    </div>
+	<!--<div id="lfuncnav">-->
+	<!--<ul>-->
+        <!--{% block sidebar_news %}-->
+        <!--<li>-->
+            <!--<p><a href="/news"> News</a></p>-->
+        <!--</li>-->
+        <!--{% endblock sidebar_news %}-->
+        <!--{% block sidebar_friends %}-->
+		<!--<li>-->
+			<!--<p><a href="/friends">Friends</a></p>-->
+		<!--</li>-->
+        <!--{% endblock sidebar_friends %}-->
+        <!--{% block sidebar_evaluation %}-->
+		<!--<li>-->
+            <!--<p><a href="/geteval">Evaluation</a></p>-->
+        <!--</li>-->
+        <!--{% endblock sidebar_evaluation %}-->
+        <!--{% block sidebar_ratings %}-->
+        <!--<li>-->
+            <!--<p><a href="/getratings_user">My Ratings</a></p>-->
+        <!--</li>-->
+        <!--{% endblock sidebar_ratings %}-->
+        <!--{% block sidebar_merge %}-->
+        <!--<li>-->
+            <!--<p><a href="/accountmerge">Merge Account</a></p>-->
+        <!--</li>-->
+        <!--{% endblock sidebar_merge %}-->
+	<!--</ul>-->
+	<!--</div>-->
+	<!--<div id="lresources">-->
+	   <!--<ul>-->
+	       <!--<li>-->
+	           <!--<p><a href="/feedback">Feedback</a></p>-->
+           <!--</li>-->
+           <!--<li>-->
+               <!--<p><a href="#">About us</a></p>-->
+           <!--</li>-->
+       <!--</ul>-->
+    <!--</div>-->
 {% endblock sidebar %}
+{% block main_legend %}News{% endblock main_legend %}
 {% block content %}
-<ul id = "content_news">
-    {% if recent_ratings | length == 0 %}
-        No rating news from your friends.
-    {% endif %}
+<div id = "content_news">
+{% if (recent_ratings | length) == 0 %}
+    <p>No rating news from your friends.</p>
+{% else %}
     {% for item in recent_ratings %}
-    <li>
-        {{ item.user_id | get_name_by_id }} rate <span class="evalscore">{{ item.rating }}</span> on webpage <span class="evalurl" onclick="open_page(&quot;{{ item.url }}&quot;)">{{ item.url }}</span>.  ---{{ item.time | datetime_format }}
-    </li>
-    <hr />
+    <div class="div_light_bottom">
+        {% set url_info = (item.url | get_url_info) %}
+
+        <div class="m_table">
+            <div class="m_table_row">
+                <div class="m_table_cell" style="width: 140px">
+                    <a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">
+                        <img src="{{ url_info.snapshot }}" width="130" height="100" class="m_border_style" />
+                    </a>
+                </div>
+                <div class="m_table_cell">
+                    <h5 class="break_text h3_style_1">{{ url_info.title }}</h5>
+                    <p>{{ url_info.topic | get_topic_text }}</p>
+                    <!--<p><a href="#" onclick="open_page(&quot;{{ item.url }}&quot;)">{{ item.url }}</a></p>-->
+                    <p>
+                        {% for number in range(item.rating) %}
+                        <img src="/static/star.png" width="25" height="25" title="{{ item.rating }}" />
+                        {% endfor %}
+                        {% for number in range(5-item.rating) %}
+                        <img src="/static/star-bw.png" width="25" height="25" title="{{ item.rating }}" />
+                        {% endfor %}
+                    </p>
+                    <p><span class="span_time">({{ item.time | datetime_format }})</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="m_table" style="width: 100%">
+            <div class="m_table_row">
+                <div class="well well-small">
+                <div class="m_table_cell">
+                    <img src="{{ item.user_id | get_picture_by_id }}" width="30" height="30">
+                </div>
+                <div class="m_table_cell">
+                    <p>
+                        <a href="/user/{{ item.user_id }}">{{ item.user_id | get_name_by_id }}</a>
+                        said:
+                    </p>
+                    <p>
+                        &quot;
+                        {{ item.comment }}
+                        &quot;
+                    </p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endfor %}
-</ul>
+{% endif %}
+</div>
+{% if recent_ratings | length != 0 %}
+    <div id="see_more_news" onclick="load_more_news()">
+        <p>More News</p>
+    </div>
+{% endif %}
 {% endblock content %}
+
 {% block rmdcontent %}
-    <p>You might want to evaluate credibility of the following urls:</p>
-    <ul>
-    {% for item in recommendations %}
-        <li>{{ item.topic }}:<a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">{{ item.url }}</a></li>
-    {% endfor %}
-    </ul>
+<h4>These web pages seem to match your expertise!</h4>
+{% if not expertise_rmds %}
+<div class="alert">
+    <strong>Bad news!</strong> Try to give some information about your expertise in <a href="/profile">your profile</a>.
+</div>
+{% elif (expertise_rmds | length) == 0 %}
+<div class="alert alert-info">
+    <strong>We are sorry!</strong> No pages related to your expertise are available now.
+</div>
+{% else %}
+<div id="myCarousel1" class="carousel slide">
+<div class="carousel-inner">
+{% for item in expertise_rmds %}
+{% if loop.index0 is divisibleby 3 %}
+{% if loop.index0 == 0 %}
+    <div class="active item">
+{% else %}
+    <div class="item">
+{% endif %}
+        <ul class="thumbnails">
+            {% endif %}
+            <li class="span4">
+                <div class="thumbnail">
+                    <a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">
+                        <img src="{{ item.snapshot }}" />
+                    </a>
+                    <h5 style="height: 60px; word-wrap: break-word;overflow-y: hidden">{{ item.title }}</h5>
+                    <p style="margin-top: 8px"><span class="text_blue">{{ item.topic | get_topic_text }}</span></p>
+                    <p>
+                        {% set avg = (item.ratings | get_avg) %}
+                        {% for number in range(avg | int) %}
+                        <img src="/static/star.png" width="20" height="20" title="{{ avg }}" />
+                        {% endfor %}
+                        {% for number in range(5-(avg | int)) %}
+                        <img src="/static/star-bw.png" width="20" height="20" title="{{ avg }}" />
+                        {% endfor %}
+                        ({{ item.total }} ratings)
+                    </p>
+                    <p>
+                        <a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">Rate it</a>
+                        for up to
+                        <span class="text_blue">
+                            <span class="m_big_bold">
+                                {{ item.url | get_reward_points(logged_in_user) }}
+                            </span>
+                            points!
+                        </span>
+                    </p>
+                </div>
+            </li>
+    {% if ((loop.index0 + 1) is divisibleby 3) or ((loop.index0 + 1) == 11) %}
+        </ul>
+    </div>
+    {% endif %}
+{% endfor %}
+</div>
+    <a class="carousel-control left" href="#myCarousel1" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel1" data-slide="next">&rsaquo;</a>
+</div>
+{% endif %}
+<h4>These web pages are raising a lot of disagreement! Check why!</h4>
+<div id="myCarousel2" class="carousel slide">
+    <div class="carousel-inner">
+        {% for item in diff_rmds %}
+        {% if loop.index0 is divisibleby 3 %}
+        {% if loop.index0 == 0 %}
+        <div class="active item">
+        {% else %}
+        <div class="item">
+            {% endif %}
+            <ul class="thumbnails">
+                {% endif %}
+                <li class="span4">
+                    <div class="thumbnail">
+                        <a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">
+                            <img src="{{ item.snapshot }}" />
+                        </a>
+                        <h5 style="height: 60px; word-wrap: break-word;overflow-y: hidden">{{ item.title }}</h5>
+                        <p style="margin-top: 8px"><span class="text_blue">{{ item.topic | get_topic_text }}</span></p>
+                        <p>
+                            {% set avg = (item.ratings | get_avg) %}
+                            {% for number in range(avg | int) %}
+                            <img src="/static/star.png" width="20" height="20" title="{{ avg }}" />
+                            {% endfor %}
+                            {% for number in range(5-(avg | int)) %}
+                            <img src="/static/star-bw.png" width="20" height="20" title="{{ avg }}" />
+                            {% endfor %}
+                            ({{ item.total }} ratings)
+                        </p>
+                        <p>
+                            <a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">Rate it</a>
+                            for up to
+                    <span class="text_blue">
+                        <span class="m_big_bold">
+                            {{ item.url | get_reward_points(logged_in_user) }}
+                        </span>
+                        points!
+                    </span>
+                        </p>
+                    </div>
+                </li>
+                {% if ((loop.index0 + 1) is divisibleby 3) or ((loop.index0 + 1) == 11) %}
+                </ul>
+            </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <a class="carousel-control left" href="#myCarousel2" data-slide="prev">&lsaquo;</a>
+    <a class="carousel-control right" href="#myCarousel2" data-slide="next">&rsaquo;</a>
+</div>
+
+    <h4>Only few evaluations are available for these web pages. Help us!</h4>
+    <div id="myCarousel3" class="carousel slide">
+        <div class="carousel-inner">
+            {% for item in sparse_rmds %}
+            {% if loop.index0 is divisibleby 3 %}
+            {% if loop.index0 == 0 %}
+            <div class="active item">
+                {% else %}
+                <div class="item">
+                    {% endif %}
+                    <ul class="thumbnails">
+                        {% endif %}
+                        <li class="span4">
+                            <div class="thumbnail">
+                                <a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">
+                                    <img src="{{ item.snapshot }}" />
+                                </a>
+                                <h5 style="height: 60px; word-wrap: break-word;overflow-y: hidden">{{ item.title }}</h5>
+                                <p style="margin-top: 8px"><span class="text_blue">{{ item.topic | get_topic_text }}</span></p>
+                                <p>
+                                    {% set avg = (item.ratings | get_avg) %}
+                                    {% for number in range(avg | int) %}
+                                    <img src="/static/star.png" width="20" height="20" title="{{ avg }}" />
+                                    {% endfor %}
+                                    {% for number in range(5-(avg | int)) %}
+                                    <img src="/static/star-bw.png" width="20" height="20" title="{{ avg }}" />
+                                    {% endfor %}
+                                    ({{ item.total }} ratings)
+                                </p>
+                                <p>
+                                    <a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">Rate it</a>
+                                    for up to
+                    <span class="text_blue">
+                        <span class="m_big_bold">
+                            {{ item.url | get_reward_points(logged_in_user) }}
+                        </span>
+                        points!
+                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% if ((loop.index0 + 1) is divisibleby 3) or ((loop.index0 + 1) == 11) %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <a class="carousel-control left" href="#myCarousel3" data-slide="prev">&lsaquo;</a>
+            <a class="carousel-control right" href="#myCarousel3" data-slide="next">&rsaquo;</a>
+        </div>
 {% endblock rmdcontent %}
 
 {% block heaven_content %}
-<div style="position:relative" >
-    <img src="/static/ladder.jpg" width=180px height=180px />
-    <img src="/static/user_marker.png" width=20px height=20px 
-        style="position:absolute;bottom:{{ logged_in_user.user_id|heaven_bottom }}px;left:{{ logged_in_user.user_id|heaven_bottom }}px"/>
+<div>
+    <h4>Heaven Points</h4>
+    <div style="position:relative" >
+    <img src="/static/ladder.jpg" style="width: 260px; height: 260px" />
+    <div style="z-index:1;position:absolute;bottom:{{ logged_in_user.user_id|heaven_bottom }}%;left:{{ logged_in_user.user_id|heaven_bottom }}%"
+         onmouseover="expand_collapsed('item_detail2', this)"
+         onmouseout="expand_collapsed('item_detail2', this)">
+        <img class="over_anim" src="/static/sprite5.png" width="25" height="25" />
+        <div class="item_detail2" style="left: 55px">
+            <div class="m_table">
+                <div class="m_table_row">
+                    <div class="m_table_cell">
+                        <img src="{{ logged_in_user.picture }}" width="40" height="40" />
+                    </div>
+                    <div class="m_table_cell">
+                        <p>{{ logged_in_user.realname }}</p>
+                        <p class="text_blue">
+                            <span class="m_big_bold">
+                                {{ logged_in_user.user_id | get_points }}
+                            </span>
+                            points
+                        </p>
+                    </div>
+                    <div class="m_table_cell">
+                        <p><img width="30" height="30" src="/static/rank_img/{{ logged_in_user.user_id | get_level }}.png" /></p>
+                        <p class="text_center">{{ logged_in_user.user_id | get_status }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% set top_users = (logged_in_user.user_id | get_top_users) %}
+    {% for uid in top_users %}
+        <div style="z-index:2;position: absolute;bottom:{{ uid | heaven_bottom }}%; left: {{ uid | heaven_left }}%"
+                onmouseover="expand_collapsed('item_detail2', this)"
+                onmouseout="expand_collapsed('item_detail2', this)">
+            <img class="over_anim" src="/static/sprite4.png" width="10" height="10" />
+            <div class="item_detail2">
+                <div class="m_table">
+                    <div class="m_table_row">
+                        <div class="m_table_cell">
+                            <img src="{{ uid | get_picture_by_id }}" width="40" height="40" />
+                        </div>
+                        <div class="m_table_cell">
+                            <p>{{ uid | get_name_by_id }}</p>
+                            <p class="text_blue">
+                            <span class="m_big_bold">
+                                {{ uid | get_points }}
+                            </span>
+                                points
+                            </p>
+                        </div>
+                        <div class="m_table_cell">
+                            <p><img width="30" height="30" src="/static/rank_img/{{ uid | get_level }}.png" /></p>
+                            <p class="text_center">{{ uid | get_status }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {#
+    {% set top_friends = (logged_in_user.user_id | get_top_friends) %}
+    {% for uid in top_friends %}
+        <div style="z-index:3; position: absolute;bottom:{{ uid | heaven_bottom }}%; left: {{ uid | heaven_left }}%"
+             onmouseover="expand_collapsed('item_detail2', this)"
+             onmouseout="expand_collapsed('item_detail2', this)">
+            <img class="over_anim" src="/static/sprite3.png" width="10" height="10"  />
+            <div class="item_detail2">
+                <div class="m_table">
+                    <div class="m_table_row">
+                        <div class="m_table_cell">
+                            <img src="{{ uid | get_picture_by_id }}" width="40" height="40" />
+                        </div>
+                        <div class="m_table_cell">
+                            <p>{{ uid | get_name_by_id }}</p>
+                            <p class="text_blue">
+                            <span class="m_big_bold">
+                                {{ uid | get_points }}
+                            </span>
+                                points
+                            </p>
+                        </div>
+                        <div class="m_table_cell">
+                            <p><img width="30" height="30" src="/static/rank_img/{{ uid | get_level }}.png" /></p>
+                            <p class="text_center">{{ uid | get_status }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    #}
+    </div>
 </div>
 <div>
-    <p>You have rated <span class="span_red">{{ logged_in_user.user_id | num_of_ratings }}</span> pages.</p>
+    <!--<p>You have gained <span class="span_red">{{ logged_in_user.user_id | get_points }}</span> points.</p>-->
+    <table id="overall_rank_table">
+        <tr>
+            {% if logged_in_user.user_id | get_level >= 1 %}
+                <td><img width="50px" height="50px" src="/static/rank_img/1.png" /></td>
+            {% else %}
+                <td><img width="50px" height="50px" src="/static/rank_img/locked_1.png" /></td>
+            {% endif %}
+            {% if logged_in_user.user_id | get_level >= 2 %}
+                <td><img width="50px" height="50px" src="/static/rank_img/2.png" /></td>
+            {% else %}
+                <td><img width="50px" height="50px" src="/static/rank_img/locked_2.png" /></td>
+            {% endif %}
+            {% if logged_in_user.user_id | get_level >= 3 %}
+                <td><img width="50px" height="50px" src="/static/rank_img/3.png" /></td>
+            {% else %}
+                <td><img width="50px" height="50px" src="/static/rank_img/locked_3.png" /></td>
+            {% endif %}
+            {% if logged_in_user.user_id | get_level >= 4 %}
+                <td><img width="50px" height="50px" src="/static/rank_img/4.png" /></td>
+            {% else %}
+                <td><img width="50px" height="50px" src="/static/rank_img/locked_4.png" /></td>
+            {% endif %}
+        </tr>
+        <tr>
+            {% if logged_in_user.user_id | get_level >= 1 %}
+                <td>Beginner</td>
+            {% else %}
+                <td style="color:#aaaaaa">Beginner</td>
+            {% endif %}
+            {% if logged_in_user.user_id | get_level >= 2 %}
+                <td>Enthusiast</td>
+            {% else %}
+                <td style="color:#aaaaaa">Enthusiast</td>
+            {% endif %}
+            {% if logged_in_user.user_id | get_level >= 3 %}
+                <td>Expert</td>
+            {% else %}
+                <td style="color:#aaaaaa">Expert</td>
+            {% endif %}
+            {% if logged_in_user.user_id | get_level >= 4 %}
+                <td>Master</td>
+            {% else %}
+                <td style="color:#aaaaaa">Master</td>
+            {% endif %}
+        </tr>
+    </table>
 </div>
 {% endblock heaven_content %}
