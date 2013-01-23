@@ -1,0 +1,80 @@
+<div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <strong>Well done!</strong> Your review has been saved.
+</div>
+    <div class="m_table_row">
+        <div class="m_table_cell">
+            <img src="{{ logged_in_user.picture }}" width="30" height="30" />
+        </div>
+        <div class="m_table_cell">
+            <p>
+                <a href="/user/{{ logged_in_user.user_id }}">{{ logged_in_user.realname }}</a>
+                said:
+                &nbsp;&nbsp;
+                <span class="m_time">({{ item.time | datetime_format }})</span>
+            </p>
+            <p>
+                &quot;{{ item.comment }}&quot;
+            </p>
+        </div>
+
+    </div>
+    <table>
+        <tr>
+            <th>
+                Overall credibility score:
+            </th>
+            <td>
+                {% for number in range(item.rating) %}
+                <img src="/static/star.png" width="25" height="25" title="{{ item.rating }}" />
+                {% endfor %}
+                {% for number in range(5-item.rating) %}
+                <img src="/static/star-bw.png" width="25" height="25" title="{{ item.rating }}" />
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Truthfulness:</th>
+            <td>
+                {% for number in range(item.truthfulness) %}
+                <img src="/static/star.png" width="25" height="25" title="{{ item.truthfulness }}" />
+                {% endfor %}
+                {% for number in range(5-item.truthfulness) %}
+                <img src="/static/star-bw.png" width="25" height="25" title="{{ item.truthfulness }}" />
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Unbiased:</th>
+            <td>
+                {% for number in range(item.unbiased) %}
+                <img src="/static/star.png" width="25" height="25" title="{{ item.unbiased }}" />
+                {% endfor %}
+                {% for number in range(5-item.unbiased) %}
+                <img src="/static/star-bw.png" width="25" height="25" title="{{ item.unbiased }}" />
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Security:</th>
+            <td>
+                {% for number in range(item.security) %}
+                <img src="/static/star.png" width="25" height="25" title="{{ item.security }}" />
+                {% endfor %}
+                {% for number in range(5-item.security) %}
+                <img src="/static/star-bw.png" width="25" height="25" title="{{ item.security }}" />
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <th>Page design:</th>
+            <td>
+                {% for number in range(item.design) %}
+                <img src="/static/star.png" width="25" height="25" title="{{ item.design }}" />
+                {% endfor %}
+                {% for number in range(5-item.design) %}
+                <img src="/static/star-bw.png" width="25" height="25" title="{{ item.design }}" />
+                {% endfor %}
+            </td>
+        </tr>
+    </table>

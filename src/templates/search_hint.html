@@ -1,0 +1,37 @@
+<div class="popover bottom">
+    <div class="arrow"></div>
+    <div class="popover-content">
+        {% if hint | length == 0 %}
+            <p class="text_center">No hint available.</p>
+        {% endif %}
+        {% for user in hint %}
+        <div class="div_light_bottom" style="padding: 9px 0px">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:52px"><a href="/user/{{ user.user_id }}"><img src="{{ user.picture }}" style="width:50px; height:50px" /></a></td>
+                    <td align="left"><a href="/user/{{ user.user_id }}">{{ user.realname }}</a></td>
+                </tr>
+            </table>
+        </div>
+        {% endfor %}
+        <p class="p_over_change text_center"><a href="/search?keyword={{ keyword }}">See all results</a></p>
+    </div>
+</div>
+        {#
+<!--<div style="margin:15px 5px">-->
+<!--{% if hint | length == 0 %}-->
+    <!--<p class="text_center">No hint available.</p>-->
+<!--{% endif %}-->
+<!--{% for user in hint %}-->
+    <!--<div class="div_light_bottom">-->
+        <!--<table style="width:100%;">-->
+            <!--<tr>-->
+                <!--<td style="width:52px"><a href="/user/{{ user.user_id }}"><img src="{{ user.picture }}" style="width:50px; height:50px" /></a></td>-->
+                <!--<td align="left"><a href="/user/{{ user.user_id }}">{{ user.realname }}</a></td>-->
+            <!--</tr>-->
+        <!--</table>-->
+    <!--</div>-->
+<!--{% endfor %}-->
+<!--<p class="p_over_change text_center"><a href="/search?keyword={{ keyword }}">See all results</a></p>-->
+<!--</div>-->
+#}

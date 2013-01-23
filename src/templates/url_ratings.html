@@ -1,0 +1,39 @@
+{% for item in ratings %}
+    <div class="div_light_bottom">
+        <div>
+            {% for number in range(item.rating) %}
+                <img src="/static/star.png" width="25" height="25" title="{{ item.rating }}" />
+            {% endfor %}
+            {% for number in range(5-item.rating) %}
+                <img src="/static/star-bw.png" width="25" height="25" title="{{ item.rating }}" />
+            {% endfor %}
+        </div>
+        <div class="m_table_row">
+            <div class="m_table_cell">
+                <img src="{{ item.user_id | get_picture_by_id }}" width="30" height="30" />
+            </div>
+            <div class="m_table_cell">
+                <p>
+                    <a href="/user/{{ item.user_id }}">{{ item.user_id | get_name_by_id }}</a>
+                    &nbsp;&nbsp;
+                    <span class="m_time">({{ item.time | datetime_format }})</span>
+                </p>
+                <p>
+                    {{ item.comment }}
+                </p>
+                {% if item.user_id != logged_in_user.user_id %}
+                <p class="muted" style="font-size: 90%">
+                    <span id="vote_message">Do you agree with this review?</span>
+                    <span class="badge badge-success m_pointer" title="Yes"
+                            onclick="upvote(&quot;{{ item.rating_id }}&quot;)">
+                        <i class="icon-thumbs-up"></i>
+                        <span id="vote_number">{{ item.upvotes }}</span>
+                    </span>
+                    <!--<span class="badge badge-warning m_pointer" title="No"><i class="icon-thumbs-down"></i></span>-->
+                </p>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+{% endfor %}

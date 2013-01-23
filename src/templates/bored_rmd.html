@@ -1,0 +1,51 @@
+<div id="boredrmd-carousel" class="carousel slide">
+    <div class="carousel-inner">
+        {% for item in bored_rmds %}
+        {% if loop.index0 is divisibleby 3 %}
+        {% if loop.index0 == 0 %}
+        <div class="active item">
+            {% else %}
+            <div class="item">
+                {% endif %}
+                <div class="row-fluid">
+                    <ul class="thumbnails">
+                        {% endif %}
+                        <li class="span4">
+                            <div class="thumbnail">
+                                <a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">
+                                    <img src="{{ item.snapshot }}" />
+                                </a>
+                                <h5 style="height: 60px; word-wrap: break-word;overflow-y: hidden">{{ item.title }}</h5>
+                                <p style="margin-top: 8px"><span class="text_blue">{{ item.topic | get_topic_text }}</span></p>
+                                <p>
+                                    {% set avg = (item.ratings | get_avg) %}
+                                    {% for number in range(avg | int) %}
+                                    <img src="/static/star.png" width="20" height="20" title="{{ avg }}" />
+                                    {% endfor %}
+                                    {% for number in range(5-(avg | int)) %}
+                                    <img src="/static/star-bw.png" width="20" height="20" title="{{ avg }}" />
+                                    {% endfor %}
+                                    ({{ item.total }} ratings)
+                                </p>
+                                <p>
+                                    <a href="/evaluate?url={{ item.url | encode_url }}" target="evaluate_window">Rate it</a>
+                                    for up to
+                                    <span class="text_blue">
+                                        <span class="m_big_bold">
+                                            {{ item.url | get_reward_points(logged_in_user) }}
+                                        </span>
+                                        points!
+                                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% if ((loop.index0 + 1) is divisibleby 3) or ((loop.index0 + 1) == 11) %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <a class="carousel-control left" href="#boredrmd-carousel" data-slide="prev">&lsaquo;</a>
+        <a class="carousel-control right" href="#boredrmd-carousel" data-slide="next">&rsaquo;</a>
+</div>

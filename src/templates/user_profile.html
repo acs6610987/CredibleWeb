@@ -1,0 +1,92 @@
+{% extends "user.html" %}
+{% block nav_user_profile %}
+<li class="active"><a href="/user/{{ user.user_id }}/profile">Profile</a></li>
+{% endblock nav_user_profile %}
+{% block user_content %}
+<div id="cw_profile_block">
+<div>
+    <h3 class="h3_style_1"><img src="/static/cw_icon.png" width="20" height="20" />Credible Web</h3>
+</div>
+<table class="table_style_1">
+<tr>
+    <th></th>
+    <td>
+        <img width="70px" height="70px" src="{{ user.picture }}" />
+    </td>
+</tr>
+<tr>
+    <th>Realname</th>
+    <td>{{ user.realname }}</td>
+</tr>
+<tr>
+    <th>Website</th>
+    <td>{{ cw_profile.website }}</td>
+</tr>
+<tr>
+    <th>Location</th>
+    <td>{{ cw_profile.location}}</td>
+</tr>
+<tr>
+    <th>Expertise<br />(or Interest)</th>
+    <td>{{ cw_profile.expertise | get_expertise_text }}</td>
+</tr>
+</table>
+</form>
+</div>
+<hr />
+{% if fb_profile %}
+<div>
+    <h3 class="h3_style_1"><img src="/static/facebook_icon.png" width="20" height="20" />Facebook</h3>
+</div>
+<table class="table_style_1">
+<tr>
+    <th></th>
+    <td>
+        <img width="70px" height="70px" src="{{ fb_profile.picture }}" />
+    </td>
+</tr>
+<tr>
+    <th>Realname</th>
+    <td>{{ fb_profile.realname }}</td>
+</tr>
+<tr>
+    <th>Website</th>
+    <td>{{ fb_profile.website }}</td>
+</tr>
+<tr>
+    <th>Location</th>
+    <td>{{ fb_profile.location}}</td>
+</tr>
+</table>
+{% else %}
+<p>This user doesn't have a facebook account.</p>
+{% endif %}
+<hr />
+{% if tw_profile %}
+<div>
+    <h3 class="h3_style_1"><img src="/static/twitter_icon.png" width="20" height="20" />Twitter</h3>
+</div>
+<table class="table_style_1">
+<tr>
+    <th></th>
+    <td>
+        <img width="70px" height="70px" src="{{ tw_profile.picture }}" />
+    </td>
+</tr>
+<tr>
+    <th>Realname</th>
+    <td>{{ tw_profile.realname }}</td>
+</tr>
+<tr>
+    <th>Website</th>
+    <td>{{ tw_profile.website }}</td>
+</tr>
+<tr>
+    <th>Location</th>
+    <td>{{ tw_profile.location}}</td>
+</tr>
+</table>
+{% else %}
+<p>This user doesn't have a twitter account.</p>
+{% endif %}
+{% endblock user_content %}

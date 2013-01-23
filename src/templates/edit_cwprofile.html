@@ -1,0 +1,196 @@
+<form class="form-horizontal" action="/edit_cwprofile" method="post" enctype="multipart/form-data" onsubmit="return check_profile(this);">
+    <div id="help_block">
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="firstname">First Name<span class="m_red">*</span></label>
+        <div class="controls">
+            <input type="text" name="firstname" id="firstname" placeholder="First Name" value="{{ logged_in_user.firstname }}">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="lastname">Last Name<span class="m_red">*</span></label>
+        <div class="controls">
+            <input type="text" name="lastname" id="lastname" placeholder="Last Name" value="{{ logged_in_user.lastname }}">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="website">Website</label>
+        <div class="controls">
+            <input type="text" name="website" id="website" placeholder="Website" value="{{ cw_profile.website }}">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="location">Location</label>
+        <div class="controls">
+            <input type="text" name="location" id="location" placeholder="Location" value="{{ cw_profile.location }}">
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Expertise<span class="m_red">*</span></label>
+        <div class="controls">
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <label class="checkbox" >
+                            <input type="checkbox" name="expertise" value="arts_entertainment"
+                                {{ cw_profile.expertise | has_expertise('arts_entertainment') }} />Arts & Entertainment
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="computer_internet"
+                            {{ cw_profile.expertise | has_expertise('computer_internet') }} />Computer & Internet
+                        </label>
+                    </td>
+
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="health"
+                            {{ cw_profile.expertise | has_expertise('health') }} />Health
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="science_technology"
+                            {{ cw_profile.expertise | has_expertise('science_technology') }} />Science & Technology
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="law_crime"
+                            {{ cw_profile.expertise | has_expertise('law_crime') }} />Law & Crime
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="business"
+                            {{ cw_profile.expertise | has_expertise('business') }} />Business
+                        </label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="culture_politics"
+                            {{ cw_profile.expertise | has_expertise('culture_politics') }} />Culture & Politics
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="gaming"
+                            {{ cw_profile.expertise | has_expertise('gaming') }} />Gaming
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="sports"
+                            {{ cw_profile.expertise | has_expertise('sports') }} />Sports
+                        </label>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="weather"
+                            {{ cw_profile.expertise | has_expertise('weather') }} />Weather
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="recreation"
+                            {{ cw_profile.expertise | has_expertise('recreation') }} >Recreation
+                        </label>
+                    </td>
+                    <td>
+                        <label class="checkbox">
+                            <input type="checkbox" name="expertise" value="religion"
+                            {{ cw_profile.expertise | has_expertise('religion') }} />Religion
+                        </label>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-info">Save Changes</button>
+            <button type="button" class="btn btn-info"
+                    onclick="document.getElementById('cw_editprofile_block').style.display='none';">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+{#
+    <table class="table_style_1">
+<tr>
+    <th></th>
+    <td>
+        <img width="70px" height="70px" src="{{ logged_in_user.picture }}" />
+        <div style="position:relative;display:inline-block">
+            Choose Photo
+            <input type="file" name="photo" style="position:absolute;top:0;left:0;z-index:10;opacity:0" />
+        </div>
+    </td>
+</tr>
+<tr>
+    <th>Realname</th>
+    <td><input type="text" name="realname" value="{{ logged_in_user.realname }}" /></td>
+</tr>
+<tr>
+    <th>Website</th>
+    <td><input type="text" name="website" value="{{ cw_profile.website }}" /></td>
+</tr>
+<tr>
+    <th>Location</th>
+    <td><input type="text" name="location" value="{{ cw_profile.location}}" /></td>
+</tr>
+<tr>
+                <th>Expertise<br />(or Interest)</th>
+                <td>
+                    <table>
+                    <tr>
+                    <td><input type="checkbox" name="expertise" value="arts_entertainment" 
+                            {{ cw_profile.expertise | has_expertise('arts_entertainment') }} />Arts & Entertainment</td>
+                    <td><input type="checkbox" name="expertise" value="health"
+                            {{ cw_profile.expertise | has_expertise('health') }} />Health</td>
+                    <td><input type="checkbox" name="expertise" value="business"
+                            {{ cw_profile.expertise | has_expertise('business') }} />Business</td>
+                    </tr>
+                    <tr>
+                    <td><input type="checkbox" name="expertise" value="computers_internet"
+                            {{ cw_profile.expertise | has_expertise('computers_internet') }} />Computers & Internet</td>
+                    <td><input type="checkbox" name="expertise" value="religion"
+                            {{ cw_profile.expertise | has_expertise('religion') }} />Religion</td>
+                    <td><input type="checkbox" name="expertise" value="sports"
+                            {{ cw_profile.expertise | has_expertise('sports') }} />Sports</td>
+                    <tr>
+                    <td><input type="checkbox" name="expertise" value="culture_politics"
+                            {{ cw_profile.expertise | has_expertise('culture_politics') }} />Culture & Politics</td>
+                    <td><input type="checkbox" name="expertise" value="gaming"
+                            {{ cw_profile.expertise | has_expertise('gaming') }} />Gaming</td>
+                    <td><input type="checkbox" name="expertise" value="weather"
+                            {{ cw_profile.expertise | has_expertise('weather') }} />Weather</td>
+                    </tr>
+                    </tr>
+                    <tr>
+                    <td><input type="checkbox" name="expertise" value="science_technology"
+                            {{ cw_profile.expertise | has_expertise('science_technology') }} />Science & Technology</td>
+                    <td><input type="checkbox" name="expertise" value="law_crime"
+                            {{ cw_profile.expertise | has_expertise('law_crime') }} />Law & Crime</td>
+                    <td><input type="checkbox" name="expertise" value="recreation"
+                            {{ cw_profile.expertise | has_expertise('recreation') }} />Recreation</td>
+                    </tr>
+                    </table>
+                </td>
+</tr>
+<tr>
+    <td></td>
+    <td><input type="submit" value="Save Changes" /><input type="button" value="Cancel" onclick="document.getElementById('cw_editprofile_block').style.display='none';" /></td>
+</tr>
+</table>
+#}
+</form>

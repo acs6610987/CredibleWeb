@@ -1,0 +1,361 @@
+/* css Zen Garden submission - 'Sakura', by Tatsuya Uchida, http://www.re-bloom.com/ */
+/* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
+/* All associated graphics copyright 2006, Tatsuya Uchida */
+
+
+/* IMPORTANT */
+/* This design is not a template. You may not reproduce it elsewhere without the 
+   designer's written permission. However, feel free to study the CSS and use 
+   techniques you learn from it elsewhere. */
+
+
+/* ////////////// layout ///////////////// */
+#topbar{
+    position : fixed ;
+    top : 0 ;
+    left : 0 ;
+    width : 100% ;
+    height : 40px ;
+    background-image : url(/static/topbar.png) ;
+    color : white ;
+    z-index : 1000 ;
+    box-shadow: rgba(0,0,0,0.3) 0px 3px 5px 0px;
+}
+#topnav{
+    width:1080px;
+    margin:0px auto;
+    padding:0px 13px;
+    position:relative;
+    height : 100% ;
+}
+#topnav-acts{
+    float: left;
+    height: 100%;
+    line-height: 40px;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#topnav-acts li{
+    display: inline;
+    float : left ;
+    margin-right : 15px ;
+    width: 90px;
+}
+#topnav-acts li a{
+    font-family: Cambria, serif;
+    font-size: 12px;
+    font-weight: bold;
+    color:#603d05;
+    text-decoration : none ;
+    height:40px;
+    padding-top: 20px;
+    margin-top: -20px;
+    background-image: url(/static/navitem.png);
+    background-position: 0px 5px;
+    background-repeat: no-repeat;
+    display: block;
+    text-align: center;
+}
+#topnav-acts li a:hover{
+    /*background-position: 0px 0px;*/
+    margin-top: -9px;
+}
+#topnav-tools{
+    float : right ;
+    height : 100% ;
+}
+
+#friendreq_box{
+display:none; 
+padding:3px 5px; 
+background-color:#ffffff; 
+position:absolute; 
+width:300px; 
+top:43px; 
+left:-100px;
+box-shadow:rgba(0,0,0,0.3) 0px 3px 8px 0px; 
+border-radius:5px;
+border : 1px solid ;
+color : black ;
+}
+
+#topnav-hint{
+background-color : #ffffff ;
+width : 300px ;
+top : 35px ;
+left : -20px ;
+color : black ;
+position : absolute ;
+display : none ;
+/*box-shadow:rgba(0,0,0,0.3) 0px 3px 8px 0px; */
+/*border-radius:5px;*/
+/*border : 1px solid ;*/
+z-index : 1 ;
+}
+#topnav-hint .popover{
+    display: block;
+}
+
+/*#container {*/
+/*width:1080px;*/
+/*margin:50px auto;*/
+/*padding:13px;*/
+/*position:relative;*/
+/*color:#454545;*/
+/*text-align:left;*/
+/*}*/
+
+/*#pageHeader {*/
+/*width:772px;*/
+/*height:179px;*/
+/*background:url(top.jpg);*/
+/*}*/
+
+#centerblock{
+float:left;
+margin-left : 13px ;
+width:750px;
+}
+#lfuncnav, #lprofile, #lresources, #mainblock, #rmdblock, #heavenblock, #userblock{
+margin : 0px 0px 10px 0px ;
+padding : 20px ;
+background-color : #ffffff ;
+border-radius: 12px;
+box-shadow:rgba(0,0,0,0.3) 3px 3px 8px 0px; 
+}
+
+#rightbar{
+float : left ;
+margin-left : 13px ;
+width : 300px ;
+}
+
+#quickSummary, #preamble, #explanation, #participation, #benefits, #requirements {
+width:546px;
+background-color:#ffffff;
+background-repeat:repeat-y;
+margin:0 0 2px 226px;
+color:#454545;
+display:block;padding:0;
+}
+
+#footer{
+clear : both ;
+text-align : center ;
+margin: 50px auto 0px; 
+}
+#footer a{
+color : #777777;
+}
+
+#linkList {
+float: left;
+width:300px;
+}
+
+#lfuncnav p:hover, #lresources p:hover{
+background-color: #eeeeee;
+}
+
+#quickSummary p span, #explanation p span, #benefits p span {
+padding:0 15px 10px 77px;
+display:block;
+}
+
+#preamble p span, #participation p span, #requirements p span {
+padding:0 85px 10px 17px;
+display:block;
+}
+
+#requirements .p5 {
+padding:0 85px 10px 17px;
+}
+
+#requirements .p5 span {
+display:inline;
+padding:0;
+}
+
+#linkList li {
+list-style:none;
+padding:6px 0 10px 0;
+background:url(line.gif) bottom repeat-x;
+}
+
+
+
+#linkList li a {
+padding-left:7px;
+background:url(link.gif) left center no-repeat;
+text-decoration:none;
+}
+
+#linkList li a:hover {
+text-decoration:underline;
+}
+
+#quickSummary .p1 span {
+padding-top:14px;
+background:url(quicksummary_top.gif) top no-repeat;
+}
+
+#quickSummary .p2 span {
+padding-bottom:20px;
+background:url(right_bottom.gif) bottom no-repeat;
+}
+
+#lselect li a {
+display:block;
+font-weight:bold;
+background-position:0 0.6em;
+}
+
+#lselect .c {
+display:inline;
+color:#666666;
+padding:0;
+background:none;
+background-color:#ffffff;
+}
+
+#content_friends table{
+width : 100% ;
+text-align :  center;
+}
+#content_friends table td{
+width : 33% ;
+}
+
+#overall_rank_table{
+width : 100% ;
+text-align : center ;
+}
+
+#overall_rank_table td{
+width : 25% ;
+}
+
+/*#profile_table{*/
+/*width:100%;*/
+/*}*/
+/*#profile_table td{*/
+/*width : 33% ;*/
+/*}*/
+
+#friendreq_block{
+    float:right;
+    position:relative;
+    margin-right:15px;
+    height:100%;
+    line-height:40px;
+    padding: 0px 3px;
+}
+#friendreq_block:hover{
+    background-color: rgba(255,255,255,0.07);
+}
+#friendreq_hint{
+    opacity: 0.8;
+    cursor: pointer;
+}
+#friendreq_num{
+    font-family: "courier";
+    position: absolute;
+    bottom: 5px;
+    right: 0px;
+    line-height: normal;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: red;
+    padding: 0px 2px;
+    border-radius: 3px;
+    box-shadow:rgba(255,0,0,0.5) 1px 1px 3px 0px;
+}
+
+#see_more_news{
+    cursor: pointer;
+    text-align: center;
+    font-size: 110%;
+}
+#see_more_news:hover{
+    background-color: rgba(100,100,255,0.1);
+}
+
+/* ///////////// background image ////////////// */
+
+/* left image */
+#quickSummary p, #explanation p , #benefits p {
+background:url(right_bg.gif) right repeat-y;
+}
+/*
+#lfuncnav, #lprofile, #lresources {
+background:url(/static/left_bg.gif) repeat-y;
+}
+#linkList .left_top {
+height:25px;
+background:url(/static/left_top.gif) no-repeat;
+}
+#linkList .left_bottom{
+height : 15px ;
+background : url(/static/left_bottom.gif) no-repeat;
+}*/
+
+/* center image */
+/*#mainblock, #rmdblock{
+background : url(/static/center_bg.gif) repeat-y;
+}*/
+#centerblock .center_top{
+height:25px;
+background:url(/static/center_top.gif) no-repeat;
+}
+#centerblock .center_bottom{
+height : 15px ;
+background : url(/static/center_bottom.gif) no-repeat;
+}
+
+/* right image */
+/*#heaven_block {
+background : url(/static/right_bg.gif) repeat-y;
+}*/
+#lfuncnav, #lprofile, #lresources, #mainblock, #rmdblock, #heaven_block{
+
+}
+
+#rightbar .right_top{
+height:25px;
+background:url(/static/right_top.gif) no-repeat;
+}
+#rightbar .right_bottom{
+height : 15px ;
+background : url(/static/right_bottom.gif) no-repeat;
+}
+
+/* side image */
+#quickSummary {background-image:url(img_quicksummary.jpg);background-position:left bottom;}
+#preamble {background-image:url(img_preamble.jpg);background-position:right bottom;}
+#explanation {background-image:url(img_explanation.jpg);background-position:left bottom;}
+#participation {background-image:url(img_participation.jpg);background-position:right bottom;}
+#benefits {background-image:url(img_benefits.jpg);background-position:left bottom;}
+#requirements {background-image:url(img_requirements.jpg);background-position:right bottom;}
+
+
+/* h3 image */
+#preamble h3 {background:url(title_preamble.gif) no-repeat;}
+#explanation h3 {background:url(title_explanation.gif) no-repeat;}
+#participation h3 {background:url(title_participation.gif) no-repeat;}
+#benefits h3 {background:url(title_benefits.gif) no-repeat;}
+#requirements h3 {background:url(title_requirements.gif) no-repeat;}
+#lselect h3 {background:url(title_select.gif) no-repeat;}
+#larchives h3 {background:url(title_archives.gif) no-repeat;}
+#lresources h3 {background:url(title_resources.gif) no-repeat;}
+
+/* bottom image */
+#preamble .p3 span, #explanation .p2 span, #participation .p3 span, #benefits .p1 span, #requirements .p5{
+padding-bottom:20px;
+background:url(right_bottom.gif) bottom no-repeat;
+}
+
+#lfuncnav ul, #lprofile ul, #lresources ul{
+margin:0;
+padding : 5px ;
+}

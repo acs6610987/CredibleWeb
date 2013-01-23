@@ -1,0 +1,52 @@
+/* CSS Document */
+
+
+#sidebar {
+    float:left; 
+    clear:left; 
+    width:25%
+}
+/*#mainblock {
+background-color : #f9f9f9 ;
+    float:left; 
+    margin-left :  20px;
+    width:50%;
+}*/
+#loading{
+text-align:center;
+display : none ;
+}
+
+/*#content ul{
+list-style-type:none;
+}*/
+.profile{
+background-color : #f9f9f9 ;
+margin-bottom : 10px ;
+padding : 10px ;
+}
+
+.profilepic {
+    float:left;
+    margin-right:10px;
+}
+.fullname {
+    float:left;
+}
+#funcnav {
+background-color : #f9f9f9 ;
+clear : left ;
+padding:5px}
+
+.evalurl{
+cursor:pointer;
+color :  blue;
+font-style : italic ;
+font-weight : bold ;
+}
+.evalscore{
+font-weight:bolder;
+}
+.user_actions{
+float : right ;
+}
