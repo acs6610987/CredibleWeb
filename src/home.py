@@ -10,7 +10,6 @@ import import_urldata
 import recommendAlg
 import logging
 
-
 ITEMS_EACH_BULK = 5
 class HomePage(BasicHandler):
     def get(self):

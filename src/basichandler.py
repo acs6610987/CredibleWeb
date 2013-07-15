@@ -17,6 +17,7 @@ import twitter_oauth
 import math
 import gmp_rules
 import gae_cache
+import json 
 
 TOP_NUM = 3
 jinja_environment = jinja2.Environment(
@@ -24,11 +25,25 @@ jinja_environment = jinja2.Environment(
 
 def datetimeformat(value):
     return value.strftime('%a, %d %b %Y %H:%M:%S')
+
 def is_friend(id1, id2):
     result = Friends.gql('WHERE user_id1 = :1 AND user_id2 = :2', id1, id2).get()
     if result:
         return True
     return False
+
+def mywot_score(url):
+    url.strip()
+    tokens = url.split('//')
+    if len(tokens)>1:
+        tokens = tokens[1].split('/')
+    else:
+        tokens = url.split('/')  
+    reputation = json.loads(urllib.urlopen("http://api.mywot.com/0.4/public_link_json2?hosts=%s/&key=%s" % (tokens[0], 'b3fad60f55cbab115be28f079fc900ba4d9105e3') ).read())
+    if '0' in reputation[tokens[0]]:
+        return reputation[tokens[0]]['0'][0]
+    else:
+        return 0
 
 def heaven_bottom(uid):
     gmp = gmp_rules.get_user_gmp(uid)
@@ -162,6 +177,7 @@ jinja_environment.filters['get_avg'] = get_avg
 jinja_environment.filters['get_url_info'] = get_url_info
 jinja_environment.filters['get_top_users'] = get_top_users
 jinja_environment.filters['get_top_friends'] = get_top_friends
+jinja_environment.filters['mywot_score'] = mywot_score
 
 class BasicHandler(webapp2.RequestHandler):
     user = None

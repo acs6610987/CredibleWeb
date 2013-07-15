@@ -10,7 +10,7 @@ import urllib
 import conf
 import logging
 import gmp_rules
-import recommendAlg
+import recommendAlg 
 
 class EvaluateHandler(BasicHandler):
     def get(self):
