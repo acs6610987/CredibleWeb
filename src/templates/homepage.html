@@ -274,6 +274,12 @@
                         </a>
                         <h5 style="height: 60px; word-wrap: break-word;overflow-y: hidden">{{ item.title }}</h5>
                         <p style="margin-top: 8px"><span class="text_blue">{{ item.topic | get_topic_text }}</span></p>
+                        <p style="margin-top: 8px"><span class="text_blue"> WOT Score: </span>
+                    	<span class="m_big_bold">	
+                    		{% set reputation = (item.url | mywot_score)%}
+                    		{{reputation}}
+                    	</span>
+                    	</p>
                         <p>
                             {% set avg = (item.ratings | get_avg) %}
                             {% for number in range(avg | int) %}
@@ -325,6 +331,12 @@
                                 </a>
                                 <h5 style="height: 60px; word-wrap: break-word;overflow-y: hidden">{{ item.title }}</h5>
                                 <p style="margin-top: 8px"><span class="text_blue">{{ item.topic | get_topic_text }}</span></p>
+                                <p style="margin-top: 8px"><span class="text_blue"> WOT Score: </span>
+                    			<span class="m_big_bold">	
+                    			{% set reputation = (item.url | mywot_score)%}
+                    			{{reputation}}
+                    			</span>
+                    			</p>
                                 <p>
                                     {% set avg = (item.ratings | get_avg) %}
                                     {% for number in range(avg | int) %}
