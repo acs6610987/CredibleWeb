@@ -292,6 +292,8 @@ class BasicHandler(webapp2.RequestHandler):
             
         else: # if access has been granted
             params = {'oauth_verifier':oauth_verifier}
+            
+            # generate the oauth header
             oauth_header = twitter_oauth.get_oauth_header('POST', 
                                                           conf.TWITTER_API+'/oauth/access_token', 
                                                           params, None, 
@@ -299,11 +301,15 @@ class BasicHandler(webapp2.RequestHandler):
                                                           conf.TWITTER_CONSUMER_SECRET, 
                                                           oauth_token, None)
             payload = 'oauth_verifier='+oauth_verifier
+            
+            # step 3 - converting the request token to an access token
+            # make a request to the POST oauth/access_token endpoint, containing the oauth_verifier value obtained in step 2
             step3 = urlfetch.fetch(conf.TWITTER_API+'/oauth/access_token',
                                    payload = payload,
                                    method = urlfetch.POST,
                                    headers={u'Authorization':oauth_header,
                                             u'Content-Type':'application/x-www-form-urlencoded'}).content
+                                            
             step3_response = self.get_key_value_from_string(step3)
             twitter_id = step3_response['user_id']
             oauth_token = step3_response['oauth_token']

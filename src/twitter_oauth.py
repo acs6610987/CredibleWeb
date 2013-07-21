@@ -11,7 +11,7 @@ import hashlib
 import time
 import conf
 
-# create the auth signature for twitter
+# create the auth signature for twitter as explained here https://dev.twitter.com/docs/auth/creating-signature
 def create_twitter_signature(method, baseUrl, req_params, oauth_params, consumer_secret, token_secret = None):
     #encode the key and the value
     params = [(percent_code(k), percent_code(v)) for k,v in req_params.items()]
@@ -42,6 +42,7 @@ def generate_timestamp():
     """Get seconds since epoch (UTC)."""
     return str(int(time.time()))
 
+# generates the authorization header as defined at https://dev.twitter.com/docs/auth/authorizing-request
 def get_oauth_header(method, baseUrl, params, oauth_callback, 
                      consumer_key, consumer_secret, token=None, token_secret=None):
     if params == None:
@@ -96,6 +97,3 @@ if __name__ == '__main__':
                                    'LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE')
     if x == 'tnnArxj06cWHq44gCs1OSKk/jLY=':
         print 'true'
-    
-    
-    
