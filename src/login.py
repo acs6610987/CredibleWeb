@@ -59,6 +59,21 @@ class FacebookLogin(BasicHandler):
 class LinkedInLogin(BasicHandler):
     def get(self):
         userInfo = self.facebook_auth('/linkedinlogin')
+        if userInfo:
+            user = User.gql('WHERE linkedin_id = :1', userInfo['linkedin_id']).get()
+            if not user:
+                user = data_models.register_user(userInfo)
+                data_models.store_exinfo(user.user_id, userInfo)
+                data_models.update_facebook_info(user, userInfo)
+                data_models.update_facebook_friends(user, userInfo)
+            else:
+                data_models.update_facebook_info(user, userInfo)
+                data_models.update_facebook_friends(user, userInfo)
+    
+            info = {'uid':user.user_id, 'origin':'linkedin', 'origin_id':userInfo['linkedin_id']}
+            self.set_cookies(info)
+                
+            self.redirect('/')
         
 class CrediblewebLogin(BasicHandler):
     def post(self):

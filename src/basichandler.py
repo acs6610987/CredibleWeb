@@ -227,16 +227,23 @@ class BasicHandler(webapp2.RequestHandler):
         template = jinja_environment.get_template(file)
         self.response.out.write(template.render(data))
             
-    
+    # authentication with facebook (it closely follow the steps at https://developers.facebook.com/docs/facebook-login/login-flow-for-web-no-jssdk/)
     def facebook_auth(self, callback):
         code = self.request.get('code')
+        
+        # check if the users has already granted access 
         if not code:
+            
+            # redirecting the user
             self.redirect('https://www.facebook.com/dialog/oauth?'+
                 'client_id=' + conf.FACEBOOK_APP_ID +
                 '&redirect_uri=' + conf.WEB_SERVER + callback +
                 '&scope=user_location,user_website' +
                 '&state=zhicong')
+            
         state = self.request.get('state')
+        
+        # param used for cross-site request forgery protection
         if state == 'zhicong':
             tokenUrl = ('https://graph.facebook.com/oauth/access_token?' +
                 'client_id=' + conf.FACEBOOK_APP_ID +
@@ -247,8 +254,11 @@ class BasicHandler(webapp2.RequestHandler):
             response = urlfetch.fetch(tokenUrl).content
             tokenInfo = self.get_key_value_from_string(response)
             access_token = tokenInfo['access_token']
+            
+            #TODO: Check this out.. it is never used 
             expires = datetime.datetime.now() + datetime.timedelta(seconds=int(tokenInfo['expires']))
-                
+            
+            #get info about the user    
             params = {'fields':'id, first_name, last_name, name,username,picture,location,website,friends', 'access_token':access_token}
             userInfo = call_api.facebook_api('GET', '/me', params)
             m_userInfo = {'facebook_id':userInfo['id'],
@@ -343,7 +353,33 @@ class BasicHandler(webapp2.RequestHandler):
         return None
     
     def linkedin_auth(self, callback):
-        linkedin_code = self.request.get('linkedin_code')
+        code = self.request.get('code') 
+         
+        # check if the users has already granted access 
+        if not code:
+            
+            # redirecting the user
+            self.redirect('https://www.linkedin.com/uas/oauth2/authorization?'+
+                'response_type=' + code +
+                'client_id=' + conf.LINKEDIN_KEY +
+                '&scope=r_fullprofile%20r_network' +
+                '&redirect_uri=' + conf.WEB_SERVER + callback +
+                '&state=' + conf.STATE)
+        
+        state = self.request.get('state')
+        
+        # param used for cross-site request forgery protection
+        if state == conf.STATE:
+            tokenUrl = ('https://www.linkedin.com/uas/oauth2/accessToken?' +
+                'grant_type=' + code +
+                '&code=' + code +
+                '&redirect_uri=' + conf.WEB_SERVER + callback +
+                'client_id=' + conf.LINKEDIN_KEY +
+                '&client_secret=' + conf.LINKEIN_SECRET_KEY)
+        
+        #TODO: parse the answer, save the user
+        
+        return None
             
     def get_key_value_from_string(self,str):
         info = str.split('&')

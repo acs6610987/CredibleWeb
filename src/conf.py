@@ -24,6 +24,7 @@ LINKEDIN_AUTH = 'https://www.linkedin.com/uas/oauth2'
 LINKEDIN_KEY = '80pvddop38ve'
 LINKEIN_SECRET_KEY = 'tznWqNUarZjZanth'
 
+STATE = 'W3AR3(00LD3V$'
 
 #WEB_SERVER = 'http://localhost:10080'
 WEB_SERVER = 'http://credibleweb.appspot.com'
