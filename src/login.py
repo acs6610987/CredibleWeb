@@ -55,6 +55,10 @@ class FacebookLogin(BasicHandler):
             self.set_cookies(info)
                 
             self.redirect('/')
+
+class LinkedInLogin(BasicHandler):
+    def get(self):
+        userInfo = self.facebook_auth('/linkedinlogin')
         
 class CrediblewebLogin(BasicHandler):
     def post(self):

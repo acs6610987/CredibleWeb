@@ -1,5 +1,7 @@
-#!/usr/bin/env python
-# coding: utf-8
+#Description: TODO
+#Created by: Zhicong Huang
+#Authors: Zhicong Huang, Alexandra Olteanu
+#Copyright: EPFL 2013
 
 import webapp2
 from google.appengine.api import urlfetch, memcache
@@ -39,7 +41,7 @@ def mywot_score(url):
         tokens = tokens[1].split('/')
     else:
         tokens = url.split('/')  
-    reputation = json.loads(urllib.urlopen("http://api.mywot.com/0.4/public_link_json2?hosts=%s/&key=%s" % (tokens[0], 'b3fad60f55cbab115be28f079fc900ba4d9105e3') ).read())
+    reputation = json.loads(urllib.urlopen("http://api.mywot.com/0.4/public_link_json2?hosts=%s/&key=%s" % (tokens[0], conf.MYWOT_KEY) ).read())
     if '0' in reputation[tokens[0]]:
         return reputation[tokens[0]]['0'][0]
     else:
@@ -262,21 +264,33 @@ class BasicHandler(webapp2.RequestHandler):
             return m_userInfo
         return None
     
+    # authentication with twitter (the steps closely follow those explained at https://dev.twitter.com/docs/auth/implementing-sign-twitter)
     def twitter_auth(self, callback):
         oauth_token = self.request.get('oauth_token')
         oauth_verifier = self.request.get('oauth_verifier')
+        
+        # check if the users has already granted access 
         if not oauth_token:
+            # step 1 - obtaining a request token
+            
+            # generate the oauth header
             oauth_header = twitter_oauth.get_oauth_header(
                                                         'POST', conf.TWITTER_API+'/oauth/request_token',
                                                         None, conf.WEB_SERVER+callback,
                                                         conf.TWITTER_CONSUMER_KEY, 
                                                         conf.TWITTER_CONSUMER_SECRET)
+            
+            #sending a signed message to POST oauth/request_token
             step1 = urlfetch.fetch(conf.TWITTER_API+'/oauth/request_token', 
                                    method = urlfetch.POST, 
                                    headers={u'Authorization':oauth_header}).content
+                                   
             step1_response = self.get_key_value_from_string(step1)
+            
+            #step 2 - redirecting the user
             self.redirect(conf.TWITTER_API+'/oauth/authenticate?oauth_token='+step1_response['oauth_token'])
-        else:
+            
+        else: # if access has been granted
             params = {'oauth_verifier':oauth_verifier}
             oauth_header = twitter_oauth.get_oauth_header('POST', 
                                                           conf.TWITTER_API+'/oauth/access_token', 
@@ -321,6 +335,9 @@ class BasicHandler(webapp2.RequestHandler):
                           'friends':friends}
             return m_userInfo
         return None
+    
+    def linkedin_auth(self, callback):
+        linkedin_code = self.request.get('linkedin_code')
             
     def get_key_value_from_string(self,str):
         info = str.split('&')

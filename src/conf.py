@@ -9,11 +9,24 @@ FACEBOOK_APP_SECRET = 'de92de8474c299fc09ef31da50c84a33'
 TWITTER_API = 'https://api.twitter.com'
 TWITTER_CONSUMER_KEY = 'VfiArFDNJEAgk1ApY51XQ'
 TWITTER_CONSUMER_SECRET = 'cL579XWJ51WqJ6Obz2ic2u5UBZ00avgYRHZy35Q62s'
+REQUEST_TOKEN_URL = 'https://api.twitter.com/oauth/request_token'
+ACCESS_TOKEN_URL  = 'https://api.twitter.com/oauth/access_token'
+AUTHORIZATION_URL = 'https://api.twitter.com/oauth/authorize'
+SIGNIN_URL        = 'https://api.twitter.com/oauth/authenticate'
 
-#WEB_SERVER = 'http://localhost:8084'
+
+ALCHEMY_KEY = '6c15f2ea82b0dab7bc9bbb9cda438933fdc02ea3'
+ALCHEMY_ENDPOINT = 'http://access.alchemyapi.com/calls/url/URLGetCategory'
+
+MYWOT_KEY = 'b3fad60f55cbab115be28f079fc900ba4d9105e3'
+
+LINKEDIN_AUTH = 'https://www.linkedin.com/uas/oauth2' 
+LINKEDIN_KEY = '80pvddop38ve'
+LINKEIN_SECRET_KEY = 'tznWqNUarZjZanth'
+
+
+#WEB_SERVER = 'http://localhost:10080'
 WEB_SERVER = 'http://credibleweb.appspot.com'
 UID_LEN = 8
 RID_LEN = 10
 
-ALCHEMY_KEY = '6c15f2ea82b0dab7bc9bbb9cda438933fdc02ea3'
-ALCHEMY_ENDPOINT = 'http://access.alchemyapi.com/calls/url/URLGetCategory'

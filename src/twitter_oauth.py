@@ -1,5 +1,7 @@
-#!/usr/bin/env python
-# coding: utf-8
+#Description: TODO
+#Created by: Zhicong Huang
+#Authors: Zhicong Huang, Alexandra Olteanu
+#Copyright: EPFL 2013
 
 import urllib
 import random
@@ -9,7 +11,9 @@ import hashlib
 import time
 import conf
 
+# create the auth signature for twitter
 def create_twitter_signature(method, baseUrl, req_params, oauth_params, consumer_secret, token_secret = None):
+    #encode the key and the value
     params = [(percent_code(k), percent_code(v)) for k,v in req_params.items()]
     params.extend([(percent_code(k), percent_code(v)) for k,v in oauth_params.items()])
     params.sort()
@@ -22,13 +26,18 @@ def create_twitter_signature(method, baseUrl, req_params, oauth_params, consumer
     hashed_value = hmac.new(signing_key, signature_base_string, hashlib.sha1).digest()
     return binascii.b2a_base64(hashed_value)[:-1]
 
+
+# string encoding (default+reserved characters) -- RFC 3986, Section 2.1
 def percent_code(str):
     return urllib.quote(str, safe = '-._~')
 
+# a unique token that the application generates; a random alphanumeric number shoud work
+## TODO: make it of a larger length and include letters
 def generate_nonce(length=8):
     """Generate pseudorandom number."""
     return ''.join([str(random.randint(0, 9)) for i in range(length)])
 
+#generates the oauth timestamp
 def generate_timestamp():
     """Get seconds since epoch (UTC)."""
     return str(int(time.time()))
@@ -37,16 +46,22 @@ def get_oauth_header(method, baseUrl, params, oauth_callback,
                      consumer_key, consumer_secret, token=None, token_secret=None):
     if params == None:
         params = {}
+    
+    # populates the auth parameters for the Authorization header
     oauth_params = {}
+    
+    #sets the URL to which the user to be redirected at, if such a URL is given
+    if oauth_callback:
+        oauth_params['oauth_callback'] = oauth_callback
+        
     oauth_params['oauth_consumer_key'] = consumer_key
     oauth_params['oauth_nonce'] = generate_nonce()
     oauth_params['oauth_signature_method'] = 'HMAC-SHA1'
     oauth_params['oauth_timestamp'] = generate_timestamp()
     if token:
         oauth_params['oauth_token'] = token
-    if oauth_callback:
-        oauth_params['oauth_callback'] = oauth_callback
     oauth_params['oauth_version'] = '1.0'
+    
     oauth_params['oauth_signature'] = create_twitter_signature(method, baseUrl,
                                                         params, oauth_params, 
                                                         consumer_secret, token_secret)
@@ -54,6 +69,8 @@ def get_oauth_header(method, baseUrl, params, oauth_callback,
     header += ', '.join(['%s="%s"' % (percent_code(k), percent_code(v))
                                       for k, v in oauth_params.items()])
     return header
+
+##************************************************************ test ***************************************************************
 
 if __name__ == '__main__':
     print get_oauth_header('POST', 'https://api.twitter.com/oauth/request_token', None, 
